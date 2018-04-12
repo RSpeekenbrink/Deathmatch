@@ -1,0 +1,24 @@
+################################################
+#                 DeathMatch                   #
+#                                              #
+#                Developed by                  #
+#         Fisher (Remco Speekenbrink)          #
+#                                              #
+################################################
+
+# Debug mode
+# Enable advanced logging
+debug: false
+
+# Debug Level
+# Level of Debugging (SEVERE, WARNING, INFO, CONFIG FINE, FINER, FINEST)
+debug-level: "FINEST"
+
+# Maintenance mode
+# Use this if placing new objects, building up the map, or doing anything related
+# This will enable map saving when true
+maintenance: false
+
+# Database Filename
+# Filename for the SQLite Database
+dbFile: "data.db"

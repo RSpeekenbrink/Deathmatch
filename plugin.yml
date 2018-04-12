@@ -1,0 +1,8 @@
+name: Deathmatch
+main: org.rspeekenbrink.deathmatch.Deathmatch
+version: 1.0
+commands:
+  deathmatch:
+    description: Deathmatch Commands
+    usage: /deathmatch <command> <args>
+    aliases: [dm]
