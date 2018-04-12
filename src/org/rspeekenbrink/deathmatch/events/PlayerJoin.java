@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.Deathmatch;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
@@ -23,7 +24,16 @@ import org.rspeekenbrink.deathmatch.managers.MessageManager;
  */
 public class PlayerJoin implements Listener {
 	private MessageManager messageManager = MessageManager.getInstance();
-	private DatabaseManager db = DatabaseManager.getInstance();
+	private Plugin plugin;
+	private DatabaseManager db;
+	
+	/**
+	 * Constructor
+	 */
+	public PlayerJoin(Plugin plugin) {
+		this.plugin = plugin;
+		this.db = DatabaseManager.getInstance(this.plugin);
+	}
 	
 	/**
 	 * This function will notify the player if the server is in maintenance mode and set the players standards.
@@ -38,8 +48,12 @@ public class PlayerJoin implements Listener {
 		List<SpawnLocation> spawns = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
 		
 		//Check if spawn is set
-		if(!spawns.isEmpty()) {
+		if(spawns != null) {
+			if(!spawns.isEmpty()) 
 			player.teleport(spawns.get(0));
+			else {
+				messageManager.OpNotifications.add("No Spawn Set");
+			}
 		}
 		else {
 			messageManager.OpNotifications.add("No Spawn Set");

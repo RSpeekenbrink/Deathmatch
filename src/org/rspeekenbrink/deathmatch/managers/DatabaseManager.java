@@ -30,23 +30,21 @@ public class DatabaseManager {
 	private static String SQL_TABLE_CHESTS_VARS = "(type,world,x,y,z)";
 	
     private static String SQL_CREATE_SPAWNSTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_SPAWNS + " (" +
-            "`id` int NOT NULL AUTO_INCREMENT," + 
+            "`id` INTEGER PRIMARY KEY AUTOINCREMENT," + 
             "`type` int NOT NULL," +
             "`world` varchar(99) NOT NULL," +
             "`x` int NOT NULL," +
             "`y` int NOT NULL," +
-            "`z` int NOT NULL," +
-            "PRIMARY KEY (`id`)" + 
+            "`z` int NOT NULL" +
             ");";
    
     private static String SQL_CREATE_CHESTTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_CHESTS + " (" +
-           "`id` int NOT NULL AUTO_INCREMENT," + 
+           "`id` INTEGER PRIMARY KEY AUTOINCREMENT," + 
            "`type` int NOT NULL," +
            "`world` varchar(99) NOT NULL," +
            "`x` int NOT NULL," +
            "`y` int NOT NULL," +
-           "`z` int NOT NULL," +
-           "PRIMARY KEY (`id`)" +  
+           "`z` int NOT NULL" + 
            ");";
 	
 	/**
@@ -90,7 +88,7 @@ public class DatabaseManager {
             try {
                 dataFolder.createNewFile();
             } catch (IOException e) {
-                logger.severe("File write error: "+dbname);
+                logger.severe("File write error: "+ dbname);
             }
         }
         try {

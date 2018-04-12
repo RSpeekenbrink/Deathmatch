@@ -36,7 +36,7 @@ public class Deathmatch extends JavaPlugin {
 	@Override
     public void onEnable() {
 		//Make sure all worlds are loaded before starting the game
-		new Startup();
+		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
     }
     
 	/**
@@ -64,10 +64,15 @@ public class Deathmatch extends JavaPlugin {
 		public void run() {
 			logger.info("Setting up data..");
 			SettingsManager.getInstance().setup(plugin);
+			
 			if(getConfig().getBoolean("debug")) {
 				logger.setLogLevel(Level.parse(getConfig().getString("debug-level")));
 				logger.info("In debug mode with debug level: " + logger.getLogLevel());
 			}
+			
+			logger.fine("Setting up DB connection..");
+			DatabaseManager db = DatabaseManager.getInstance(plugin);
+			db.load();
 			
 			InMaintenance = getConfig().getBoolean("maintenance");
 			logger.fine("Server in maintenance: " + InMaintenance);
@@ -95,14 +100,10 @@ public class Deathmatch extends JavaPlugin {
 				
 			}
 			
-			logger.fine("Setting up DB connection..");
-			DatabaseManager db = DatabaseManager.getInstance(plugin);
-			db.load();
-			
 			logger.fine("Setting up events..");
 			PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new CreatureSpawn(plugin), plugin);
-			pm.registerEvents(new PlayerJoin(), plugin);
+			pm.registerEvents(new PlayerJoin(plugin), plugin);
 			pm.registerEvents(new PlayerQuit(), plugin);
 			
 			logger.fine("Setting up commands..");
