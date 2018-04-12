@@ -9,8 +9,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
 import org.rspeekenbrink.deathmatch.util.Logger;
@@ -129,7 +131,7 @@ public class DatabaseManager {
      * 
      * @return List<SpawnLocation> results
      */
-    @SuppressWarnings("null")
+	@SuppressWarnings("null")
 	public List<SpawnLocation> getSpawnLocations(SpawnLocation.SpawnType type) {
     	connection = getSQLConnection();
     	PreparedStatement ps = null;
@@ -137,11 +139,17 @@ public class DatabaseManager {
         List<SpawnLocation> result = null;
         
         try {
-        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue() + ";");
+        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue());
         	rs = ps.executeQuery();
         	
+        	logger.fine(rs.toString());
+        	
         	while(rs.next()) {
-        		result.add(new SpawnLocation(Bukkit.getWorld(rs.getString("world")), rs.getInt("x"), rs.getInt("y"), rs.getInt("z"), type));
+        		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
+        		if(world != null && type != null)
+        			result.add(new SpawnLocation(world, rs.getDouble("x"), rs.getDouble("y"), rs.getDouble("z"), type));
+        		else
+        			logger.severe("Can't resolve world");
         	}
         	
         } catch (SQLException ex) {
@@ -162,15 +170,18 @@ public class DatabaseManager {
     	connection = getSQLConnection();
     	PreparedStatement ps = null;
     	try {
-    		ps = connection.prepareStatement("INSERT INTO " + SQL_TABLE_SPAWNS + " " + SQL_TABLE_SPAWNS_VARS + "VALUES(?,?,?,?,?)" );
+    		ps = connection.prepareStatement("INSERT INTO " + SQL_TABLE_SPAWNS + " " + SQL_TABLE_SPAWNS_VARS + "VALUES (?,?,?,?,?)" );
     		ps.setInt(1, location.type.getValue());
-    		ps.setString(2, location.getWorld().getName());
+    		ps.setString(2, location.getWorld().getUID().toString());
     		ps.setDouble(3, location.getX());
     		ps.setDouble(4, location.getY());
     		ps.setDouble(5, location.getZ());
+    		logger.finest("Executing Query: " + ps.toString());
+    		ps.executeUpdate();
     		
     	} catch (SQLException ex) {
         	ex.printStackTrace();
+        	logger.severe("Couldn't save Spawn Location in DB; " + ex.getMessage());
         } finally {
         	close(ps, null, connection);
         }

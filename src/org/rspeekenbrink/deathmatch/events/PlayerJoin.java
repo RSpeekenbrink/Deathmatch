@@ -45,12 +45,15 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
 		Player player = event.getPlayer();
-		List<SpawnLocation> spawns = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
+		List<SpawnLocation> spawns;
+		
+		spawns = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
 		
 		//Check if spawn is set
 		if(spawns != null) {
-			if(!spawns.isEmpty()) 
-			player.teleport(spawns.get(0));
+			if(!spawns.isEmpty()) {
+				plugin.getLogger().info(spawns.toString());
+			}
 			else {
 				messageManager.OpNotifications.add("No Spawn Set");
 			}

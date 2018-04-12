@@ -18,20 +18,25 @@ public class Spawn implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
-		if(args[0] == "set" && args.length == 2) {
-			SpawnLocation.SpawnType type;
-			
-			switch(args[1]) {
-				case "main":
-					type = SpawnLocation.SpawnType.MAIN;
-					SpawnLocation newSp = new SpawnLocation(player.getLocation(), type);
-					db.insertSpawnLocation(newSp);
-					//TODO: REMOVE OLD MAIN SPAWN
-					msg.sendMessage("Main Spawn Set Succesfully", player);
-					break;
-				default:
-					msg.sendErrorMessage("Unknown Spawn type", player);
-					break;
+		if(args.length == 2) {
+			if(args[0].equals("set")) {
+				SpawnLocation.SpawnType type;
+				
+				switch(args[1]) {
+					case "main":
+						type = SpawnLocation.SpawnType.MAIN;
+						SpawnLocation newSp = new SpawnLocation(player.getLocation(), type);
+						db.insertSpawnLocation(newSp);
+						//TODO: REMOVE OLD MAIN SPAWN
+						msg.sendMessage("Main Spawn Set Succesfully", player);
+						break;
+					case "game":
+						//TODO: HANDLE
+						break;
+					default:
+						msg.sendErrorMessage("Unknown Spawn type", player);
+						break;
+				}
 			}
 			
 		}
