@@ -105,6 +105,7 @@ public class Deathmatch extends JavaPlugin {
 			pm.registerEvents(new CreatureSpawn(plugin), plugin);
 			pm.registerEvents(new PlayerJoin(plugin), plugin);
 			pm.registerEvents(new PlayerQuit(), plugin);
+			pm.registerEvents(new EntityDeath(), plugin);
 			
 			logger.fine("Setting up commands..");
 			setupCommands();
