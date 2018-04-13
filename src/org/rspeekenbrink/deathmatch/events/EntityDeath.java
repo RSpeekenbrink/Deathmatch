@@ -1,5 +1,8 @@
 package org.rspeekenbrink.deathmatch.events;
 
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -17,7 +20,13 @@ public class EntityDeath implements Listener{
 	@EventHandler
 	public void onPlayerDeath(EntityDeathEvent e) 
 	{
+		LivingEntity entity = e.getEntity();
 		
+		if(entity.getType() == EntityType.PLAYER) {
+			//player died *sad*
+			Player killed = (Player) entity;
+			//Do Stuff
+		}
 	}
 	
 }
