@@ -48,6 +48,7 @@ public class PlayerJoin implements Listener {
 		//Check if spawn is set
 		if(mainSpawn != null) {
 			player.teleport(mainSpawn);
+			player.setBedSpawnLocation(mainSpawn, true);
 		}
 		else {
 			messageManager.OpNotifications.add("No server spawn location has been set yet! Use '/dm spawn set main' to set one!");
