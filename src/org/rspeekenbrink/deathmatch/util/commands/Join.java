@@ -1,6 +1,7 @@
 package org.rspeekenbrink.deathmatch.util.commands;
 
 import org.bukkit.entity.Player;
+import org.rspeekenbrink.deathmatch.Game;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
@@ -9,8 +10,8 @@ public class Join implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
-		// TODO Auto-generated method stub
-		return false;
+		Game.PlayerJoin(player);
+		return true;
 	}
 
 	@Override
