@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
@@ -58,12 +59,13 @@ public final class Game {
 		Random randomizer = new Random();
 		SpawnLocation randomSpawn = gameSpawns.get(randomizer.nextInt(gameSpawns.size()));
 		
+		player.setGameMode(GameMode.SURVIVAL);
 		player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, (3*20), 1, true, false)); //3 sec blindness if 20ticks/sec
 		player.playSound(randomSpawn, Sound.BLOCK_PORTAL_TRAVEL, 1, 1);
 		player.teleport(randomSpawn);
 		player.setCanPickupItems(true);
 		player.setNoDamageTicks(15 * 20); //Spawn Protection
-		player.setFoodLevel(18);
+		player.setFoodLevel(20);
 		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		msg.sendTitleMessage(ChatColor.GREEN + "Good Luck!", "Current Players: " + inGame.size(), player, 20, (4 * 20), 20);
 		
