@@ -25,7 +25,7 @@ public class EntityDeath implements Listener {
 		if(entity.getType() == EntityType.PLAYER) {
 			//player died *sad*
 			Player killed = (Player) entity;
-			//Do Stuff
+			killed.setCanPickupItems(false);
 		}
 	}
 	

@@ -39,6 +39,20 @@ public class MessageManager {
 	}
 	
 	/**
+	 * Send a title message
+	 * 
+	 * @param title String Will not display if null
+	 * @param subtitle String Will not display if null
+	 * @param player Player Player to send the message to
+	 * @param fadeIn int time it takes to fade in in ticks
+	 * @param stay int time it takes to stay in ticks
+	 * @param fadeOut int time it takes to fade out in ticks
+	 */
+	public void sendTitleMessage(String title, String subtitle, Player player, int fadeIn, int stay, int fadeOut) {
+		player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+	}
+	
+	/**
 	 * Return string with coverted command for use in the help command
 	 * 
 	 * @param command The command including all aliases

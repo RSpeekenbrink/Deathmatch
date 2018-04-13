@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
+import org.rspeekenbrink.deathmatch.util.commands.Join;
 import org.rspeekenbrink.deathmatch.util.commands.Reload;
 import org.rspeekenbrink.deathmatch.util.commands.Spawn;
 
@@ -46,6 +47,7 @@ public class CommandHandler implements CommandExecutor {
 	 * Binds the command to a command handle class
 	 */
 	private void setupCommands() {
+		commands.put("join", new Join());
 		commands.put("reload", new Reload());
 		commands.put("spawn", new Spawn(plugin));
 	}
@@ -55,6 +57,7 @@ public class CommandHandler implements CommandExecutor {
 	 */
 	private void setupHelp() {
 		//General
+		helpinfo.put("join", 1);
 		
 		//Admin
 		helpinfo.put("reload", 2);
