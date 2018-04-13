@@ -141,6 +141,11 @@ public class DatabaseManager {
         	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue());
         	rs = ps.executeQuery();
         	
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		return null;
+        	} 
+        	
         	while(rs.next()) {
           		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
         		if(world != null && type != null)
