@@ -19,8 +19,13 @@ public class Spawn implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
+		if(!player.hasPermission(permission()) && !player.isOp()) {
+			msg.sendErrorMessage("You do not have permission to execute this command", player);
+			return false;
+		}
+		
 		if(args.length == 2) {
-			if(args[0].equalsIgnoreCase("set")) {
+			if(args[0].equalsIgnoreCase("add")) {
 				SpawnLocation.SpawnType type;
 				switch(args[1]) {
 					case "main":
@@ -67,14 +72,12 @@ public class Spawn implements SubCommand {
 
 	@Override
 	public String help(Player p) {
-		// TODO Auto-generated method stub
-		return null;
+		return msg.convertHelpInfo("/deathmatch spawn [add/delete] [main/game]", "Add or Delete the main or a game spawn");
 	}
 
 	@Override
 	public String permission() {
-		// TODO Auto-generated method stub
-		return null;
+		return "deathmatch.spawn.modify";
 	}
 
 }
