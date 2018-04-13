@@ -1,5 +1,6 @@
 package org.rspeekenbrink.deathmatch.util.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
@@ -28,10 +29,13 @@ public class Spawn implements SubCommand {
 						SpawnLocation newSp = new SpawnLocation(player.getLocation(), type);
 						db.insertSpawnLocation(newSp);
 						//TODO: REMOVE OLD MAIN SPAWN
-						msg.sendMessage("Main Spawn Set Succesfully", player);
+						msg.sendMessage(ChatColor.GREEN + "Main Spawn Set Succesfully", player);
 						break;
 					case "game":
-						//TODO: HANDLE
+						type = SpawnLocation.SpawnType.GAME;
+						SpawnLocation newGs = new SpawnLocation(player.getLocation(), type);
+						db.insertSpawnLocation(newGs);
+						msg.sendMessage(ChatColor.GREEN + "Game Spawn added", player);
 						break;
 					default:
 						msg.sendErrorMessage("Unknown Spawn type", player);
