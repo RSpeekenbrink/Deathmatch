@@ -129,7 +129,6 @@ public class DatabaseManager {
      * Get list of spawnlocations of a specific type
      * 
      * @param SpawnLocation.SpawnType type
-     * 
      * @return List<SpawnLocation> results
      */
 	public List<SpawnLocation> getSpawnLocations(SpawnLocation.SpawnType type) {
@@ -141,6 +140,11 @@ public class DatabaseManager {
         try {
         	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue());
         	rs = ps.executeQuery();
+        	
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		return null;
+        	} 
         	
         	while(rs.next()) {
           		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
@@ -180,6 +184,25 @@ public class DatabaseManager {
     	} catch (SQLException ex) {
         	ex.printStackTrace();
         	logger.severe("Couldn't save Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Remove All Spawns of a specific type
+     * 
+     * @param SpawnType
+     */
+    public void deleteAllSpawnLocations(SpawnLocation.SpawnType type) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("DELETE FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue() );
+    		ps.executeUpdate();
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't remove Spawn Location in DB; " + ex.getMessage());
         } finally {
         	close(ps, null, connection);
         }

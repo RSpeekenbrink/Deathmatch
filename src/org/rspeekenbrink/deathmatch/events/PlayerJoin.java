@@ -1,5 +1,7 @@
 package org.rspeekenbrink.deathmatch.events;
 
+import java.util.List;
+
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -43,15 +45,16 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
 		Player player = event.getPlayer();
-		SpawnLocation mainSpawn = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN).get(0);
+		List<SpawnLocation> mainSpawnList = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
 		
 		//Check if spawn is set
-		if(mainSpawn != null) {
+		if(mainSpawnList != null) {
+			SpawnLocation mainSpawn = mainSpawnList.get(0);
 			player.teleport(mainSpawn);
 			player.setBedSpawnLocation(mainSpawn, true);
 		}
 		else {
-			messageManager.OpNotifications.add("No server spawn location has been set yet! Use '/dm spawn set main' to set one!");
+			messageManager.OpNotifications.add("No server spawn location has been set yet! \nUse '/dm spawn add main' to set one!");
 		}
 		
 		event.setJoinMessage("Welcome, " + player.getName() + "!");

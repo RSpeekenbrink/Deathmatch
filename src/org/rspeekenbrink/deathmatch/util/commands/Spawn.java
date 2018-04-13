@@ -1,5 +1,6 @@
 package org.rspeekenbrink.deathmatch.util.commands;
 
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
@@ -18,41 +19,65 @@ public class Spawn implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
+		if(!player.hasPermission(permission()) && !player.isOp()) {
+			msg.sendErrorMessage("You do not have permission to execute this command", player);
+			return false;
+		}
+		
 		if(args.length == 2) {
-			if(args[0].equals("set")) {
+			if(args[0].equalsIgnoreCase("add")) {
 				SpawnLocation.SpawnType type;
-				
 				switch(args[1]) {
 					case "main":
 						type = SpawnLocation.SpawnType.MAIN;
 						SpawnLocation newSp = new SpawnLocation(player.getLocation(), type);
+						db.deleteAllSpawnLocations(type);
 						db.insertSpawnLocation(newSp);
-						//TODO: REMOVE OLD MAIN SPAWN
-						msg.sendMessage("Main Spawn Set Succesfully", player);
+						msg.sendMessage(ChatColor.GREEN + "Main Spawn Set Succesfully", player);
 						break;
 					case "game":
-						//TODO: HANDLE
+						type = SpawnLocation.SpawnType.GAME;
+						SpawnLocation newGs = new SpawnLocation(player.getLocation(), type);
+						db.insertSpawnLocation(newGs);
+						msg.sendMessage(ChatColor.GREEN + "Game Spawn added", player);
 						break;
 					default:
 						msg.sendErrorMessage("Unknown Spawn type", player);
 						break;
 				}
+				return true;
 			}
-			
+			if(args[0].equalsIgnoreCase("delete")) {
+				SpawnLocation.SpawnType type;
+				switch(args[1]) {
+				case "main":
+					type = SpawnLocation.SpawnType.MAIN;
+					db.deleteAllSpawnLocations(type);
+					msg.sendMessage(ChatColor.GREEN + "Main Spawn Deleted Succesfully", player);
+					break;
+				case "game":
+					type = SpawnLocation.SpawnType.GAME;
+					db.deleteAllSpawnLocations(type);
+					msg.sendMessage(ChatColor.GREEN + "Game Spawns Deleted Succesfully", player);
+					break;
+				default:
+					msg.sendErrorMessage("Unknown Spawn type", player);
+					break;
+			}
+			return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
 	public String help(Player p) {
-		// TODO Auto-generated method stub
-		return null;
+		return msg.convertHelpInfo("/deathmatch spawn [add/delete] [main/game]", "Add or Delete the main or a game spawn");
 	}
 
 	@Override
 	public String permission() {
-		// TODO Auto-generated method stub
-		return null;
+		return "deathmatch.spawn.modify";
 	}
 
 }
