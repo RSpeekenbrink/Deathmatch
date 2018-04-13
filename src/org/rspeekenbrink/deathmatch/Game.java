@@ -74,10 +74,10 @@ public final class Game {
 	 * Run All events needed on game start
 	 */
 	public static void Start() {
-		if(!Bukkit.getOnlinePlayers().isEmpty() && !Deathmatch.InMaintenance) {
+		if(!Bukkit.getOnlinePlayers().isEmpty() && !Deathmatch.InMaintenance && !Deathmatch.InDebug) {
 			//Kick all pre-joined players
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				player.kickPlayer(ChatColor.GREEN + "§bServer is Restarting... \n§r§3Please join back in a few seconds");
+				player.kickPlayer("§l§bServer is Restarting... \n§r§3Please join back in a few seconds");
 			}
 		}
 	}

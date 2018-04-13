@@ -23,7 +23,7 @@ import org.rspeekenbrink.deathmatch.managers.MessageManager;
  * @since       1.0
  */
 public class PlayerJoin implements Listener {
-	private MessageManager messageManager = MessageManager.getInstance();
+	private MessageManager msg = MessageManager.getInstance();
 	private Plugin plugin;
 	private DatabaseManager db;
 	
@@ -54,23 +54,28 @@ public class PlayerJoin implements Listener {
 			player.setBedSpawnLocation(mainSpawn, true);
 		}
 		else {
-			messageManager.OpNotifications.add("No server spawn location has been set yet! \nUse '/dm spawn add main' to set one!");
+			msg.OpNotifications.add("No server spawn location has been set yet! \nUse '/dm spawn add main' to set one!");
 		}
 		
 		event.setJoinMessage("Welcome, " + player.getName() + "!");
 		
-		if(player.isOp()) {
-			messageManager.sendOpNotifications(player);
-		}
-		
 		if(Deathmatch.InMaintenance) {
-			if(player.isOp()) {
+			if(player.isOp() || player.hasPermission("deathmatch.join.maintenance")) {
 				event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + "Server is in maintenance mode!");
+			} else {
+				player.kickPlayer("§l§bServer is in maintenance\n§r§3Please join back later!");
 			}
 		}
-		else {
-			player.setGameMode(GameMode.SURVIVAL);
-			player.setCanPickupItems(false);
+		if(Deathmatch.InDebug) {
+			msg.OpNotifications.add(ChatColor.RED + "Server is in DEBUG mode!");
+		}
+			
+		player.setGameMode(GameMode.SURVIVAL);
+		player.setCanPickupItems(false);
+		
+		
+		if(player.isOp()) {
+			msg.sendOpNotifications(player);
 		}
 		
     }
