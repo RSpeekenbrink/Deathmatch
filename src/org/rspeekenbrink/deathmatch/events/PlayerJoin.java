@@ -54,7 +54,7 @@ public class PlayerJoin implements Listener {
 			player.setBedSpawnLocation(mainSpawn, true);
 		}
 		else {
-			messageManager.OpNotifications.add("No server spawn location has been set yet! Use '/dm spawn set main' to set one!");
+			messageManager.OpNotifications.add("No server spawn location has been set yet! \nUse '/dm spawn add main' to set one!");
 		}
 		
 		event.setJoinMessage("Welcome, " + player.getName() + "!");
