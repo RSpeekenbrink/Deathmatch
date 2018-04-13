@@ -73,6 +73,22 @@ public final class Game {
 	}
 	
 	/**
+	 * Let player leave and remove from player list
+	 * 
+	 * @param player
+	 * @return boolean Succes
+	 */
+	public static boolean PlayerLeave(Player player) {
+		if(inGame.contains(player)) {
+			player.setGameMode(GameMode.SURVIVAL);
+			player.setCanPickupItems(false);
+			player.teleport(player.getBedSpawnLocation());
+		}
+		
+		return true;
+	}
+	
+	/**
 	 * Run All events needed on game start
 	 */
 	public static void Start() {

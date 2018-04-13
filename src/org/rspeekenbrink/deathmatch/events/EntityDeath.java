@@ -1,11 +1,15 @@
 package org.rspeekenbrink.deathmatch.events;
 
+import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.rspeekenbrink.deathmatch.Game;
+import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
 /**
  * EntityDeath Event will handle all points etc.
@@ -16,6 +20,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
  * @since       1.0
  */
 public class EntityDeath implements Listener {
+	private MessageManager msg = MessageManager.getInstance();
 	
 	@EventHandler
 	public void onPlayerDeath(EntityDeathEvent e) 
@@ -25,7 +30,9 @@ public class EntityDeath implements Listener {
 		if(entity.getType() == EntityType.PLAYER) {
 			//player died *sad*
 			Player killed = (Player) entity;
-			killed.setCanPickupItems(false);
+			killed.getWorld().playSound(killed.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1, 1);
+			msg.broadcastMessage(ChatColor.GREEN + killed.getName() + " got killed by " + killed.getKiller().getName());
+			Game.PlayerLeave(killed);
 		}
 	}
 	
