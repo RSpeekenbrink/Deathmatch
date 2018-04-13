@@ -45,18 +45,12 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
 		Player player = event.getPlayer();
-		List<SpawnLocation> spawns;
-		
-		spawns = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
+		List<SpawnLocation> spawns = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
 		
 		//Check if spawn is set
-		if(spawns != null) {
-			if(!spawns.isEmpty()) {
-				plugin.getLogger().info(spawns.toString());
-			}
-			else {
-				messageManager.OpNotifications.add("No Spawn Set");
-			}
+		if(spawns != null && !spawns.isEmpty()) {
+			player.teleport(spawns.get(0));
+			player.setBedSpawnLocation(spawns.get(0));
 		}
 		else {
 			messageManager.OpNotifications.add("No Spawn Set");
@@ -70,12 +64,11 @@ public class PlayerJoin implements Listener {
 		
 		if(Deathmatch.InMaintenance) {
 			if(player.isOp()) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Server is in maintenance mode!");
+				event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + "Server is in maintenance mode!");
 			}
 		}
 		else {
 			player.setGameMode(GameMode.SURVIVAL);
-			//TODO: player.setBedSpawnLocation() to spawn
 			player.setCanPickupItems(false);
 		}
 		
