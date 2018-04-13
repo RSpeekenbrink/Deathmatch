@@ -46,6 +46,8 @@ public class Deathmatch extends JavaPlugin {
 	 */
     @Override
     public void onDisable() {
+    	logger.info("Stopping Game..");
+    	Game.Stop();
     	logger.info("Disabled!");
     }
     
@@ -97,7 +99,6 @@ public class Deathmatch extends JavaPlugin {
 				worlds.setWaterAnimalSpawnLimit(0);
 				worlds.setAmbientSpawnLimit(0);
 				worlds.setDifficulty(Difficulty.HARD);
-				
 			}
 			
 			logger.fine("Setting up events..");
@@ -109,6 +110,9 @@ public class Deathmatch extends JavaPlugin {
 			
 			logger.fine("Setting up commands..");
 			setupCommands();
+			
+			logger.info("Starting Game..");
+			Game.Start();
 			
 			logger.info("Enabled!");
 		}
