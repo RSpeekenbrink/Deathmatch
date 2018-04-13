@@ -7,9 +7,12 @@ import java.util.Random;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
@@ -69,6 +72,22 @@ public final class Game {
 		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
 		msg.sendTitleMessage(ChatColor.GREEN + "Good Luck!", "Current Players: " + inGame.size(), player, 20, (4 * 20), 20);
 		
+		/*************TEMP FOR TESTING*********************/
+		ItemStack item = new ItemStack(Material.BOW, 1);
+		item.addEnchantment(Enchantment.ARROW_INFINITE, 1);
+		player.getInventory().addItem(item);
+		
+		item = new ItemStack(Material.ARROW, 1);
+		player.getInventory().addItem(item);
+		
+		item = new ItemStack(Material.DIAMOND_SWORD, 1);
+		item.addEnchantment(Enchantment.DAMAGE_ALL, 1);
+		player.getInventory().addItem(item);
+		
+		item = new ItemStack(Material.COOKED_MUTTON, 64);
+		player.getInventory().addItem(item);
+		/*************************************************/
+		
 		return true;
 	}
 	
@@ -83,6 +102,7 @@ public final class Game {
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setCanPickupItems(false);
 			player.teleport(player.getBedSpawnLocation());
+			inGame.remove(player);
 		}
 		
 		return true;
