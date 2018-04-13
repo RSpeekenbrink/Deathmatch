@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
+import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -34,6 +35,11 @@ public final class Game {
 	 * @return boolean Succes
 	 */
 	public static boolean PlayerJoin(Player player) {
+		if(inGame.contains(player)) {
+			msg.sendErrorMessage("You're already in the game!", player);
+			return false;
+		}
+		
 		if(Deathmatch.InMaintenance) {
 			msg.sendErrorMessage("The server is in maintenance!", player);
 			return false;
@@ -46,6 +52,8 @@ public final class Game {
 			return false;
 		}
 		
+		inGame.add(player);
+		
 		Random randomizer = new Random();
 		SpawnLocation randomSpawn = gameSpawns.get(randomizer.nextInt(gameSpawns.size()));
 		
@@ -53,10 +61,11 @@ public final class Game {
 		player.playSound(randomSpawn, Sound.BLOCK_PORTAL_TRAVEL, 1, 1);
 		player.teleport(randomSpawn);
 		player.setCanPickupItems(true);
-		player.setNoDamageTicks(5 * 20);
-		msg.sendTitleMessage(ChatColor.GREEN + "Good Luck!", "Current Players: " + inGame.size(), player, 20, (6 * 20), 20);
+		player.setNoDamageTicks(15 * 20); //Spawn Protection
+		player.setFoodLevel(18);
+		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+		msg.sendTitleMessage(ChatColor.GREEN + "Good Luck!", "Current Players: " + inGame.size(), player, 20, (4 * 20), 20);
 		
-		inGame.add(player);
 		return true;
 	}
 	
