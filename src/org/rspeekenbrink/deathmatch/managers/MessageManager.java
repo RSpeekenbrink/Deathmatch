@@ -53,6 +53,17 @@ public class MessageManager {
 	}
 	
 	/**
+	 * Return string with coverted command for use in the help command
+	 * 
+	 * @param command The command including all aliases
+	 * @param description Command Description
+	 * @return
+	 */
+	public String convertHelpInfo(String command, String description) {
+		return ChatColor.GOLD + command + "\n" + ChatColor.RESET + description;
+	}
+	
+	/**
 	 * Send a message to a player using the plugins markdown
 	 * 
 	 * @param msg String containing the message to send
