@@ -20,15 +20,14 @@ public class Spawn implements SubCommand {
 	@Override
 	public boolean onCommand(Player player, String[] args) {
 		if(args.length == 2) {
-			if(args[0].equals("set")) {
+			if(args[0].equalsIgnoreCase("set")) {
 				SpawnLocation.SpawnType type;
-				
 				switch(args[1]) {
 					case "main":
 						type = SpawnLocation.SpawnType.MAIN;
 						SpawnLocation newSp = new SpawnLocation(player.getLocation(), type);
+						db.deleteAllSpawnLocations(type);
 						db.insertSpawnLocation(newSp);
-						//TODO: REMOVE OLD MAIN SPAWN
 						msg.sendMessage(ChatColor.GREEN + "Main Spawn Set Succesfully", player);
 						break;
 					case "game":
@@ -41,8 +40,27 @@ public class Spawn implements SubCommand {
 						msg.sendErrorMessage("Unknown Spawn type", player);
 						break;
 				}
+				return true;
 			}
-			
+			if(args[0].equalsIgnoreCase("delete")) {
+				SpawnLocation.SpawnType type;
+				switch(args[1]) {
+				case "main":
+					type = SpawnLocation.SpawnType.MAIN;
+					db.deleteAllSpawnLocations(type);
+					msg.sendMessage(ChatColor.GREEN + "Main Spawn Deleted Succesfully", player);
+					break;
+				case "game":
+					type = SpawnLocation.SpawnType.GAME;
+					db.deleteAllSpawnLocations(type);
+					msg.sendMessage(ChatColor.GREEN + "Game Spawns Deleted Succesfully", player);
+					break;
+				default:
+					msg.sendErrorMessage("Unknown Spawn type", player);
+					break;
+			}
+			return true;
+			}
 		}
 		return false;
 	}
