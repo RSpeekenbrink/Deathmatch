@@ -12,10 +12,15 @@ permissions:
      description: Gives access to all Deathmatch commands
      default: op
      children:
+       deathmatch.help.admin: true
        deathmatch.join: true
        deathmatch.join.maintenance: true
        deathmatch.leave: true
        deathmatch.place.sign: true
+       deathmatch.reload: true
+   deathmatch.help.admin:
+     description: Show admin commands
+     default: op
    deathmatch.join:
      description: Allows you to join deathMatch
      default: true
@@ -34,4 +39,3 @@ permissions:
    deathmatch.spawn.modify:
      description: Allows you to modify all spawns
      default: op
-   
