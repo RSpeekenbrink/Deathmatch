@@ -43,7 +43,7 @@ public class DatabaseManager {
    
     private static String SQL_CREATE_CHESTTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_CHESTS + " (" +
            "`id` INTEGER PRIMARY KEY AUTOINCREMENT," + 
-           "`type` int NOT NULL," +
+           "`type` varchar(99) NOT NULL," +
            "`world` varchar(99) NOT NULL," +
            "`x` int NOT NULL," +
            "`y` int NOT NULL," +
