@@ -25,6 +25,7 @@ public class Deathmatch extends JavaPlugin {
 	private Logger logger = new Logger(plugin);
 	
 	public static boolean InMaintenance = false;
+	public static boolean InDebug = false;
 	
 	/**
 	 * This function will run when the plugin is started. In the function it will make a new instance of the startup runnable 
@@ -70,6 +71,7 @@ public class Deathmatch extends JavaPlugin {
 			if(getConfig().getBoolean("debug")) {
 				logger.setLogLevel(Level.parse(getConfig().getString("debug-level")));
 				logger.info("In debug mode with debug level: " + logger.getLogLevel());
+				Deathmatch.InDebug = true;
 			}
 			
 			logger.fine("Setting up DB connection..");
@@ -103,10 +105,15 @@ public class Deathmatch extends JavaPlugin {
 			
 			logger.fine("Setting up events..");
 			PluginManager pm = getServer().getPluginManager();
+			pm.registerEvents(new BlockBreak(), plugin);
+			pm.registerEvents(new BlockPlace(), plugin);
 			pm.registerEvents(new CreatureSpawn(plugin), plugin);
+			pm.registerEvents(new EntityDamage(), plugin);
+			pm.registerEvents(new EntityDeath(), plugin);
+			pm.registerEvents(new PlayerInteract(), plugin);
 			pm.registerEvents(new PlayerJoin(plugin), plugin);
 			pm.registerEvents(new PlayerQuit(), plugin);
-			pm.registerEvents(new EntityDeath(), plugin);
+			pm.registerEvents(new SignChange(), plugin);
 			
 			logger.fine("Setting up commands..");
 			setupCommands();
