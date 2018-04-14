@@ -99,10 +99,16 @@ public final class Game {
 	 */
 	public static boolean PlayerLeave(Player player) {
 		if(inGame.contains(player)) {
+			player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, (2*20), 1, true, false));
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setCanPickupItems(false);
 			player.teleport(player.getBedSpawnLocation());
 			player.getInventory().clear();
+			
+			if(!player.isDead()) {
+				player.setFoodLevel(20);
+				player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+			}
 			
 			inGame.remove(player);
 		}
