@@ -106,6 +106,9 @@ public final class Game {
 			
 			inGame.remove(player);
 		}
+		else {
+			msg.sendErrorMessage("You are not in game!", player);
+		}
 		
 		return true;
 	}
