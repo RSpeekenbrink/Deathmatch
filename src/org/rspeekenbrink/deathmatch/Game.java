@@ -67,6 +67,7 @@ public final class Game {
 		player.playSound(randomSpawn, Sound.BLOCK_PORTAL_TRAVEL, 1, 1);
 		player.teleport(randomSpawn);
 		player.setCanPickupItems(true);
+		player.getInventory().clear();
 		player.setNoDamageTicks(8 * 20); //Spawn Protection
 		player.setFoodLevel(20);
 		player.setHealth(player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
