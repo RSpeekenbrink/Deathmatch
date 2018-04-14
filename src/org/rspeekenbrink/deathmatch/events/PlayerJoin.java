@@ -23,7 +23,7 @@ import org.rspeekenbrink.deathmatch.managers.MessageManager;
  * @since       1.0
  */
 public class PlayerJoin implements Listener {
-	private MessageManager messageManager = MessageManager.getInstance();
+	private MessageManager msg = MessageManager.getInstance();
 	private Plugin plugin;
 	private DatabaseManager db;
 	
@@ -45,38 +45,37 @@ public class PlayerJoin implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event)
     {
 		Player player = event.getPlayer();
-		List<SpawnLocation> spawns;
-		
-		spawns = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
+		List<SpawnLocation> mainSpawnList = db.getSpawnLocations(SpawnLocation.SpawnType.MAIN);
 		
 		//Check if spawn is set
-		if(spawns != null) {
-			if(!spawns.isEmpty()) {
-				plugin.getLogger().info(spawns.toString());
-			}
-			else {
-				messageManager.OpNotifications.add("No Spawn Set");
-			}
+		if(mainSpawnList != null) {
+			SpawnLocation mainSpawn = mainSpawnList.get(0);
+			player.teleport(mainSpawn);
+			player.setBedSpawnLocation(mainSpawn, true);
 		}
 		else {
-			messageManager.OpNotifications.add("No Spawn Set");
+			msg.OpNotifications.add("No server spawn location has been set yet! \nUse '/dm spawn add main' to set one!");
 		}
 		
 		event.setJoinMessage("Welcome, " + player.getName() + "!");
 		
-		if(player.isOp()) {
-			messageManager.sendOpNotifications(player);
-		}
-		
 		if(Deathmatch.InMaintenance) {
-			if(player.isOp()) {
-				event.getPlayer().sendMessage(ChatColor.RED + "Server is in maintenance mode!");
+			if(player.hasPermission("deathmatch.join.maintenance")) {
+				event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + "Server is in maintenance mode!");
+			} else {
+				player.kickPlayer("§l§bServer is in maintenance\n§r§3Please join back later!");
 			}
 		}
-		else {
-			player.setGameMode(GameMode.SURVIVAL);
-			//TODO: player.setBedSpawnLocation() to spawn
-			player.setCanPickupItems(false);
+		if(Deathmatch.InDebug) {
+			msg.OpNotifications.add(ChatColor.RED + "Server is in DEBUG mode!");
+		}
+			
+		player.setGameMode(GameMode.SURVIVAL);
+		player.setCanPickupItems(false);
+		
+		
+		if(player.isOp()) {
+			msg.sendOpNotifications(player);
 		}
 		
     }

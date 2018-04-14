@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Vector;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,6 +12,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
+import org.rspeekenbrink.deathmatch.util.commands.Join;
+import org.rspeekenbrink.deathmatch.util.commands.Leave;
 import org.rspeekenbrink.deathmatch.util.commands.Reload;
 import org.rspeekenbrink.deathmatch.util.commands.Spawn;
 
@@ -25,7 +28,7 @@ import org.rspeekenbrink.deathmatch.util.commands.Spawn;
 public class CommandHandler implements CommandExecutor {
 	private Plugin plugin;
 	private HashMap < String, SubCommand > commands;
-	private HashMap < String, Integer > helpinfo;
+	private HashMap < String, Integer > helpinfo; //ints: Commands(1), Admin Commands(2)
 	private MessageManager msgManager = MessageManager.getInstance();
 	
 	/**
@@ -45,6 +48,8 @@ public class CommandHandler implements CommandExecutor {
 	 * Binds the command to a command handle class
 	 */
 	private void setupCommands() {
+		commands.put("join", new Join());
+		commands.put("leave", new Leave());
 		commands.put("reload", new Reload());
 		commands.put("spawn", new Spawn(plugin));
 	}
@@ -53,7 +58,13 @@ public class CommandHandler implements CommandExecutor {
 	 * Setup Help info for each command
 	 */
 	private void setupHelp() {
+		//General
+		helpinfo.put("join", 1);
+		helpinfo.put("leave", 1);
 		
+		//Admin
+		helpinfo.put("reload", 2);
+		helpinfo.put("spawn", 2);
 	}
 
 	/**
@@ -70,7 +81,17 @@ public class CommandHandler implements CommandExecutor {
 				return true;
 			}
 			if (args[0].equalsIgnoreCase("help")) {
-				//TODO: Handle Help
+				if (args.length == 1) {
+					help(player, 1);
+					return true;
+				}
+				else {
+					if(args[1].equalsIgnoreCase("admin")) {
+						help(player,2);
+						return true;
+					}
+					help(player,1);
+				}
 				return true;
 			}
 			
@@ -100,7 +121,26 @@ public class CommandHandler implements CommandExecutor {
 	}
 	
 	public void help (Player p, int page) {
-		//TODO: Show Help
+		if (page == 1) {
+			p.sendMessage(ChatColor.DARK_GRAY + "------------ " + ChatColor.DARK_AQUA + msgManager.Prefix + " Commands" + ChatColor.DARK_GRAY + " ------------");
+		}
+		if (page == 2) {
+			if(!p.hasPermission("deathmatch.help.admin")) {
+				msgManager.sendErrorMessage("You do not have permission to view this help page", p);
+				return;
+			}
+			p.sendMessage(ChatColor.DARK_GRAY + "------------ " + ChatColor.DARK_AQUA + msgManager.Prefix + " Admin Commands" + ChatColor.DARK_GRAY + " ------------");
+		}
+		
+		for (String command : commands.keySet()) {
+			try{
+				if (helpinfo.get(command) == page) {
+					p.sendMessage(commands.get(command).help(p));
+				}
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	

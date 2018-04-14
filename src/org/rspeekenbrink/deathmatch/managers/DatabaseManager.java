@@ -8,6 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -128,24 +129,25 @@ public class DatabaseManager {
      * Get list of spawnlocations of a specific type
      * 
      * @param SpawnLocation.SpawnType type
-     * 
      * @return List<SpawnLocation> results
      */
-	@SuppressWarnings("null")
 	public List<SpawnLocation> getSpawnLocations(SpawnLocation.SpawnType type) {
     	connection = getSQLConnection();
     	PreparedStatement ps = null;
         ResultSet rs = null;
-        List<SpawnLocation> result = null;
+        List<SpawnLocation> result = new ArrayList<SpawnLocation>();
         
         try {
         	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue());
         	rs = ps.executeQuery();
         	
-        	logger.fine(rs.toString());
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		return null;
+        	} 
         	
         	while(rs.next()) {
-        		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
+          		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
         		if(world != null && type != null)
         			result.add(new SpawnLocation(world, rs.getDouble("x"), rs.getDouble("y"), rs.getDouble("z"), type));
         		else
@@ -182,6 +184,25 @@ public class DatabaseManager {
     	} catch (SQLException ex) {
         	ex.printStackTrace();
         	logger.severe("Couldn't save Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Remove All Spawns of a specific type
+     * 
+     * @param SpawnType
+     */
+    public void deleteAllSpawnLocations(SpawnLocation.SpawnType type) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("DELETE FROM " + SQL_TABLE_SPAWNS + " WHERE type = " + type.getValue() );
+    		ps.executeUpdate();
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't remove Spawn Location in DB; " + ex.getMessage());
         } finally {
         	close(ps, null, connection);
         }

@@ -39,6 +39,31 @@ public class MessageManager {
 	}
 	
 	/**
+	 * Send a title message
+	 * 
+	 * @param title String Will not display if null
+	 * @param subtitle String Will not display if null
+	 * @param player Player Player to send the message to
+	 * @param fadeIn int time it takes to fade in in ticks
+	 * @param stay int time it takes to stay in ticks
+	 * @param fadeOut int time it takes to fade out in ticks
+	 */
+	public void sendTitleMessage(String title, String subtitle, Player player, int fadeIn, int stay, int fadeOut) {
+		player.sendTitle(title, subtitle, fadeIn, stay, fadeOut);
+	}
+	
+	/**
+	 * Return string with coverted command for use in the help command
+	 * 
+	 * @param command The command including all aliases
+	 * @param description Command Description
+	 * @return
+	 */
+	public String convertHelpInfo(String command, String description) {
+		return ChatColor.GOLD + command + "\n" + ChatColor.RESET + description;
+	}
+	
+	/**
 	 * Send a message to a player using the plugins markdown
 	 * 
 	 * @param msg String containing the message to send
@@ -68,6 +93,16 @@ public class MessageManager {
 	}
 	
 	/**
+	 * Broadcast a message for the whole server to see using the plugins mardown
+	 * 
+	 * @param msg String containing the message to send
+	 * @param prefix boolean Should the prefix be displayed?
+	 */
+	public void broadcastMessage(String msg, boolean prefix) {
+		Bukkit.broadcastMessage((prefix ? this.Prefix : "") + " " + msg );
+	}
+	
+	/**
 	 * Send OP Notifications to player
 	 * 
 	 * @param player Player object of the player to send the message to
@@ -76,6 +111,15 @@ public class MessageManager {
 		for (String message: OpNotifications) {
 		    sendMessage(message, player);
 		}
+	}
+	
+	/**
+	 * Send a permission error to a player
+	 * 
+	 * @param player Player to send the message to
+	 */
+	public void sendNoPermissionMessage(Player player) {
+		player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
 	}
 	
 }

@@ -1,8 +1,41 @@
 name: Deathmatch
 main: org.rspeekenbrink.deathmatch.Deathmatch
-version: 1.0
+version: 0.1
+database: true
 commands:
   deathmatch:
     description: Deathmatch Commands
     usage: /deathmatch <command> <args>
     aliases: [dm]
+permissions:
+   deathmatch.*:
+     description: Gives access to all Deathmatch commands
+     default: op
+     children:
+       deathmatch.help.admin: true
+       deathmatch.join: true
+       deathmatch.join.maintenance: true
+       deathmatch.leave: true
+       deathmatch.place.sign: true
+       deathmatch.reload: true
+   deathmatch.help.admin:
+     description: Show admin commands
+     default: op
+   deathmatch.join:
+     description: Allows you to join deathMatch
+     default: true
+   deathmatch.join.maintenance:
+     description: Allows you to join the server when the server is in maintenance mode
+     default: op
+   deathmatch.leave:
+     description: Allow you to leave deathmatch trough a command
+     default: true
+   deathmatch.place.sign:
+     description: Allows you to place DeathMatch command signs (such as join)
+     default: op
+   deathmatch.reload:
+     description: Allows you to reload the game config files
+     default: op
+   deathmatch.spawn.modify:
+     description: Allows you to modify all spawns
+     default: op
