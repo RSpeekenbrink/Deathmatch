@@ -10,7 +10,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.rspeekenbrink.deathmatch.Game;
-import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
 /**
  * EntityDeath Event will handle all points etc.
