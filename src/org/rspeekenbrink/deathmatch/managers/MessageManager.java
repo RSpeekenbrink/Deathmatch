@@ -93,6 +93,16 @@ public class MessageManager {
 	}
 	
 	/**
+	 * Broadcast a message for the whole server to see using the plugins mardown
+	 * 
+	 * @param msg String containing the message to send
+	 * @param prefix boolean Should the prefix be displayed?
+	 */
+	public void broadcastMessage(String msg, boolean prefix) {
+		Bukkit.broadcastMessage((prefix ? this.Prefix : "") + " " + msg );
+	}
+	
+	/**
 	 * Send OP Notifications to player
 	 * 
 	 * @param player Player object of the player to send the message to
