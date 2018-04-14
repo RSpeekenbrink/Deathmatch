@@ -102,6 +102,8 @@ public final class Game {
 			player.setGameMode(GameMode.SURVIVAL);
 			player.setCanPickupItems(false);
 			player.teleport(player.getBedSpawnLocation());
+			player.getInventory().clear();
+			
 			inGame.remove(player);
 		}
 		
