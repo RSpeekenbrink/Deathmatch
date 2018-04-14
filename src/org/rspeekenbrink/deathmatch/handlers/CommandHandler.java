@@ -125,7 +125,7 @@ public class CommandHandler implements CommandExecutor {
 			p.sendMessage(ChatColor.DARK_GRAY + "------------ " + ChatColor.DARK_AQUA + msgManager.Prefix + " Commands" + ChatColor.DARK_GRAY + " ------------");
 		}
 		if (page == 2) {
-			if(!p.isOp() && !p.hasPermission("deathmatch.help.admin")) {
+			if(!p.hasPermission("deathmatch.help.admin")) {
 				msgManager.sendErrorMessage("You do not have permission to view this help page", p);
 				return;
 			}
