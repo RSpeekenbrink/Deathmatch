@@ -9,7 +9,7 @@ public class SignChange implements Listener {
 	
 	@EventHandler
 	public void onSignChange(SignChangeEvent e) {
-		if(e.getPlayer().hasPermission("deathmatch.place.sign") || e.getPlayer().isOp()) {
+		if(e.getPlayer().hasPermission("deathmatch.place.sign")) {
 			if(e.getLine(0).equalsIgnoreCase("[dmjoin]")) {
 				e.setLine(0, ChatColor.DARK_GRAY + "[DeathMatch]");
 				e.setLine(1, ChatColor.DARK_AQUA + "Join");

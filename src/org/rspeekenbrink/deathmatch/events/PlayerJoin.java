@@ -60,7 +60,7 @@ public class PlayerJoin implements Listener {
 		event.setJoinMessage("Welcome, " + player.getName() + "!");
 		
 		if(Deathmatch.InMaintenance) {
-			if(player.isOp() || player.hasPermission("deathmatch.join.maintenance")) {
+			if(player.hasPermission("deathmatch.join.maintenance")) {
 				event.getPlayer().sendMessage(ChatColor.DARK_PURPLE + "Server is in maintenance mode!");
 			} else {
 				player.kickPlayer("§l§bServer is in maintenance\n§r§3Please join back later!");

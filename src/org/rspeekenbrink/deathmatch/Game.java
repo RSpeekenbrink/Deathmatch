@@ -45,6 +45,11 @@ public final class Game {
 			return false;
 		}
 		
+		if(!player.hasPermission("deathmatc.join")) {
+			msg.sendNoPermissionMessage(player);
+			return false;
+		}
+		
 		if(Deathmatch.InMaintenance) {
 			msg.sendErrorMessage("The server is in maintenance!", player);
 			return false;

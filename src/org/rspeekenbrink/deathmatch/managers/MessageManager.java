@@ -113,4 +113,13 @@ public class MessageManager {
 		}
 	}
 	
+	/**
+	 * Send a permission error to a player
+	 * 
+	 * @param player Player to send the message to
+	 */
+	public void sendNoPermissionMessage(Player player) {
+		player.sendMessage(ChatColor.RED + "You do not have permission to do this!");
+	}
+	
 }

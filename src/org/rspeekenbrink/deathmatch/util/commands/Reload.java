@@ -16,7 +16,10 @@ public class Reload implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
-		// TODO Auto-generated method stub
+		if(!player.hasPermission(permission())) {
+			msg.sendNoPermissionMessage(player);
+			return false;
+		}
 		return false;
 	}
 

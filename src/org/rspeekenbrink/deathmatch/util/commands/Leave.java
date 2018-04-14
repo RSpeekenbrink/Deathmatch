@@ -10,6 +10,11 @@ public class Leave implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
+		if(!player.hasPermission(permission())) {
+			msg.sendNoPermissionMessage(player);
+			return false;
+		}
+		
 		Game.PlayerLeave(player);
 		return true;
 	}

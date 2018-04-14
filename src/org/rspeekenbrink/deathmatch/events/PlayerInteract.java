@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.rspeekenbrink.deathmatch.Game;
+import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
 public class PlayerInteract implements Listener {
 	@EventHandler
@@ -17,6 +18,10 @@ public class PlayerInteract implements Listener {
 				if(sign.getLine(0).equals(ChatColor.DARK_GRAY + "[DeathMatch]")) {
 					//Handle DM Signs
 					if(sign.getLine(1).equals(ChatColor.DARK_AQUA + "Join")) {
+						if(!e.getPlayer().hasPermission("deathmatch.join")) {
+							MessageManager.getInstance().sendNoPermissionMessage(e.getPlayer());
+							return;
+						}
 						Game.PlayerJoin(e.getPlayer());
 					}
 				}

@@ -19,8 +19,8 @@ public class Spawn implements SubCommand {
 
 	@Override
 	public boolean onCommand(Player player, String[] args) {
-		if(!player.hasPermission(permission()) && !player.isOp()) {
-			msg.sendErrorMessage("You do not have permission to execute this command", player);
+		if(!player.hasPermission(permission())) {
+			msg.sendNoPermissionMessage(player);
 			return false;
 		}
 		
