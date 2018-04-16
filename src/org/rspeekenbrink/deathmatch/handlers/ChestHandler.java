@@ -18,6 +18,7 @@ public class ChestHandler {
 	private static ChestHandler instance;
 	private DatabaseManager db = DatabaseManager.getInstance();
 	private HashMap<String, ChestBase> chestTypes = new HashMap<String, ChestBase>();
+	private HashMap<Location, String> chestCache = new HashMap<Location, String>();
 	
 	/**
 	 * Requests the instance of the MessageManager Class, if this does not exist create the instance.
@@ -99,6 +100,16 @@ public class ChestHandler {
 		if(type != null) {
 			db.addChest(locationPlaced, type);
 		}
+	}
+	
+	/**
+	 * Cache a chest
+	 * 
+	 * @param location Location
+	 * @param type Chest type
+	 */
+	public void cacheChest(Location location, String type) {
+		chestCache.put(location, type);
 	}
 	
 	/**

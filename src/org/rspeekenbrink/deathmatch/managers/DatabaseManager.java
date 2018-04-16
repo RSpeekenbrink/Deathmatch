@@ -17,6 +17,7 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
+import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.util.Logger;
 
 public class DatabaseManager {
@@ -209,6 +210,12 @@ public class DatabaseManager {
         }
     }
     
+    /**
+     * Add Chest to the Database
+     * 
+     * @param location
+     * @param type
+     */
     public void addChest(Location location, String type) {
     	connection = getSQLConnection();
     	PreparedStatement ps = null;
@@ -227,6 +234,40 @@ public class DatabaseManager {
         	logger.severe("Couldn't save Chest Location in DB; " + ex.getMessage());
         } finally {
         	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Cache all chests from database
+     */
+    public void cacheChests() {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        ChestHandler chestHandler = ChestHandler.getInstance();
+        
+        try {
+        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_CHESTS);
+        	rs = ps.executeQuery();
+        	
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		logger.info("No chests to cache!");
+        		return;
+        	} 
+        	
+        	while(rs.next()) {
+          		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
+        		if(world != null)
+        			chestHandler.cacheChest(new Location(world, rs.getDouble("x"), rs.getDouble("y"), rs.getDouble("z")), rs.getString("type"));
+        		else
+        			logger.severe("Can't resolve world");
+        	}
+        	
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        } finally {
+        	close(ps, rs, connection);
         }
     }
 

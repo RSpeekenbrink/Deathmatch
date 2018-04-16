@@ -135,6 +135,11 @@ public final class Game {
 				player.kickPlayer("§l§bServer is Restarting... \n§r§3Please join back in a few seconds");
 			}
 		}
+		
+		if(!Deathmatch.InMaintenance) {
+			//Cache chests
+			db.cacheChests();
+		}
 	}
 	
 	/**
