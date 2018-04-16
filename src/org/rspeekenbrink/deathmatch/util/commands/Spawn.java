@@ -63,8 +63,7 @@ public class Spawn implements SubCommand {
 				default:
 					msg.sendErrorMessage("Unknown Spawn type", player);
 					break;
-			}
-			return true;
+				}
 			}
 		}
 		msg.sendErrorMessage("Incorrect command sytax! Use /dm help to see the list of commands", player);
