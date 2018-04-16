@@ -18,6 +18,7 @@ public class ChestGeneral extends ChestBase {
 	private void initializeChest() {
 		this.chestTitle = "General Chest";
 		this.chestDisplayTitle = ChatColor.GRAY + "General Chest";
+		this.isPlaceAble = true;
 		
 		ItemStack item = new ItemStack(Material.POTATO);
 		chestItems.add(item);
