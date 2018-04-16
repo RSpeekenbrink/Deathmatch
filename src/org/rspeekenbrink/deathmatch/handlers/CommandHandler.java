@@ -12,6 +12,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
+import org.rspeekenbrink.deathmatch.util.commands.Chest;
 import org.rspeekenbrink.deathmatch.util.commands.Join;
 import org.rspeekenbrink.deathmatch.util.commands.Leave;
 import org.rspeekenbrink.deathmatch.util.commands.Reload;
@@ -48,6 +49,7 @@ public class CommandHandler implements CommandExecutor {
 	 * Binds the command to a command handle class
 	 */
 	private void setupCommands() {
+		commands.put("chest", new Chest());
 		commands.put("join", new Join());
 		commands.put("leave", new Leave());
 		commands.put("reload", new Reload());
@@ -61,6 +63,7 @@ public class CommandHandler implements CommandExecutor {
 		//General
 		helpinfo.put("join", 1);
 		helpinfo.put("leave", 1);
+		helpinfo.put("chest", 1);
 		
 		//Admin
 		helpinfo.put("reload", 2);
