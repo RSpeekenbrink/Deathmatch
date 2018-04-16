@@ -1,5 +1,6 @@
 package org.rspeekenbrink.deathmatch.classes.chests;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
@@ -15,11 +16,11 @@ import org.bukkit.inventory.ItemStack;
  * @since       1.0
  */
 public class ChestBase {
-	protected Collection<ItemStack> chestItems;
+	protected Collection<ItemStack> chestItems = new ArrayList<ItemStack>();
 	protected boolean isPlaceAble = false;
 	
-	public String chestTitle;
-	public String chestDisplayTitle;
+	public String chestTitle = "";
+	public String chestDisplayTitle = "";
 	
 	/**
 	 * Return if chest is placeable

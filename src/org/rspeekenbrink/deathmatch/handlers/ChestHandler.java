@@ -17,7 +17,7 @@ import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 public class ChestHandler {
 	private static ChestHandler instance;
 	private DatabaseManager db = DatabaseManager.getInstance();
-	private HashMap<String, ChestBase> chestTypes;
+	private HashMap<String, ChestBase> chestTypes = new HashMap<String, ChestBase>();
 	
 	/**
 	 * Requests the instance of the MessageManager Class, if this does not exist create the instance.
