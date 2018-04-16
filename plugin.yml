@@ -39,3 +39,6 @@ permissions:
    deathmatch.spawn.modify:
      description: Allows you to modify all spawns
      default: op
+   deathmatch.chest.place:
+     description: Allows you to place new chests
+     default: op

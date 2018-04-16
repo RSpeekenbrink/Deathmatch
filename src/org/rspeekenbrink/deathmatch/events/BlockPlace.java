@@ -23,7 +23,7 @@ public class BlockPlace implements Listener {
 		}
 		
 		if(e.getBlockPlaced().getType() == Material.CHEST) {
-			if(chestHandler.isPlaceAbleChest(e.getItemInHand())) {
+			if(chestHandler.isPlaceAbleChest(e.getItemInHand()) && e.getPlayer().hasPermission("deathmatch.chest.place")) {
 				chestHandler.placeChest(e.getItemInHand(), e.getBlockPlaced().getLocation());
 				msg.sendMessage("Chest saved!", e.getPlayer());
 			}
