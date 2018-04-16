@@ -125,7 +125,7 @@ public class Deathmatch extends JavaPlugin {
 			chestHandler.registerChestType("general", new ChestGeneral());
 			
 			logger.info("Starting Game..");
-			Game.Start();
+			Game.Start(plugin);
 			
 			logger.info("Enabled!");
 		}

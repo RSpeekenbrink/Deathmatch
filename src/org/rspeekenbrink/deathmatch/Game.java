@@ -13,11 +13,13 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
+import org.rspeekenbrink.deathmatch.util.Logger;
 
 /**
  * Static Class containing all main game functions and loops
@@ -128,7 +130,9 @@ public final class Game {
 	/**
 	 * Run All events needed on game start
 	 */
-	public static void Start() {
+	public static void Start(Plugin plugin) {
+		Logger logger = new Logger(plugin);
+		
 		if(!Bukkit.getOnlinePlayers().isEmpty() && !Deathmatch.InMaintenance && !Deathmatch.InDebug) {
 			//Kick all pre-joined players
 			for (Player player : Bukkit.getOnlinePlayers()) {
@@ -137,6 +141,7 @@ public final class Game {
 		}
 		
 		if(!Deathmatch.InMaintenance) {
+			logger.fine("Caching chests....");
 			//Cache chests
 			db.cacheChests();
 		}
