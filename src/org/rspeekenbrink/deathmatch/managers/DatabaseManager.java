@@ -13,9 +13,11 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
+import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.util.Logger;
 
 public class DatabaseManager {
@@ -43,7 +45,7 @@ public class DatabaseManager {
    
     private static String SQL_CREATE_CHESTTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_CHESTS + " (" +
            "`id` INTEGER PRIMARY KEY AUTOINCREMENT," + 
-           "`type` int NOT NULL," +
+           "`type` varchar(99) NOT NULL," +
            "`world` varchar(99) NOT NULL," +
            "`x` int NOT NULL," +
            "`y` int NOT NULL," +
@@ -206,6 +208,125 @@ public class DatabaseManager {
         } finally {
         	close(ps, null, connection);
         }
+    }
+    
+    /**
+     * Add Chest to the Database
+     * 
+     * @param location
+     * @param type
+     */
+    public void addChest(Location location, String type) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("INSERT INTO " + SQL_TABLE_CHESTS + " " + SQL_TABLE_CHESTS_VARS + "VALUES (?,?,?,?,?)" );
+    		ps.setString(1, type);
+    		ps.setString(2, location.getWorld().getUID().toString());
+    		ps.setDouble(3, location.getX());
+    		ps.setDouble(4, location.getY());
+    		ps.setDouble(5, location.getZ());
+    		logger.finest("Executing Query: " + ps.toString());
+    		ps.executeUpdate();
+    		
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't save Chest Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Cache all chests from database
+     */
+    public void cacheChests() {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        ChestHandler chestHandler = ChestHandler.getInstance();
+        
+        try {
+        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_CHESTS);
+        	rs = ps.executeQuery();
+        	
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		logger.info("No chests to cache!");
+        		return;
+        	} 
+        	
+        	while(rs.next()) {
+          		World world = Bukkit.getWorld(UUID.fromString(rs.getString("world")));
+        		if(world != null)
+        			chestHandler.cacheChest(new Location(world, rs.getDouble("x"), rs.getDouble("y"), rs.getDouble("z")), rs.getString("type"));
+        		else
+        			logger.severe("Can't resolve world");
+        	}
+        	
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        } finally {
+        	close(ps, rs, connection);
+        }
+    }
+    
+    /**
+     * Delete Chest
+     * 
+     * @param SpawnType
+     */
+    public void deleteChest(Location location) {
+    	if(!isSavedChest(location)) return;
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("DELETE FROM " + SQL_TABLE_CHESTS + " WHERE " +
+        			"x = ? AND y = ? AND z = ? AND world = ?");	
+    		ps.setDouble(1, location.getX());
+    		ps.setDouble(2, location.getY());
+    		ps.setDouble(3, location.getZ());
+    		ps.setString(4, location.getWorld().getUID().toString());
+    		ps.executeUpdate();
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't remove Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Cache all chests from database
+     * 
+     * @return boolean is saved chest
+     */
+    public boolean isSavedChest(Location location) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_CHESTS + " WHERE " +
+        			"x = ? AND y = ? AND z = ? AND world = ?");	
+    		ps.setDouble(1, location.getX());
+    		ps.setDouble(2, location.getY());
+    		ps.setDouble(3, location.getZ());
+    		ps.setString(4, location.getWorld().getUID().toString());
+        	rs = ps.executeQuery();
+        	
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		return false;
+        	} 
+        	return true;
+        	
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        } finally {
+        	close(ps, rs, connection);
+        }
+		return false;
     }
 
     /**

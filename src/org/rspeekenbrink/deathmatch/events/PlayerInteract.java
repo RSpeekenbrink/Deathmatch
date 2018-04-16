@@ -1,15 +1,25 @@
 package org.rspeekenbrink.deathmatch.events;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.Game;
+import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
 public class PlayerInteract implements Listener {
+	private Plugin plugin;
+	
+	public PlayerInteract(Plugin plugin) {
+		this.plugin = plugin;
+	}
+	
+	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		if(e.getAction() == Action.RIGHT_CLICK_BLOCK) {
@@ -24,6 +34,18 @@ public class PlayerInteract implements Listener {
 						}
 						Game.PlayerJoin(e.getPlayer());
 					}
+				}
+			}
+			
+			if(e.getClickedBlock().getType() == Material.CHEST) {
+				if(Game.inGame.contains(e.getPlayer())) {
+					ChestHandler chestHandler = ChestHandler.getInstance();
+					if(chestHandler.isGameChest(e.getClickedBlock().getLocation())) {
+						chestHandler.dropItem(e.getClickedBlock().getLocation(), plugin);
+					}
+				}
+				else {
+					e.setCancelled(true);
 				}
 			}
 		}
