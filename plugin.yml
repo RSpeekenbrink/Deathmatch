@@ -18,6 +18,9 @@ permissions:
        deathmatch.leave: true
        deathmatch.place.sign: true
        deathmatch.reload: true
+       deathmatch.spawn.modify: true
+       deathmatch.chest.place: true
+       deathmatch.chest.remove: true
    deathmatch.help.admin:
      description: Show admin commands
      default: op
@@ -41,4 +44,7 @@ permissions:
      default: op
    deathmatch.chest.place:
      description: Allows you to place new chests
+     default: op
+   deathmatch.chest.remove:
+     description: Allows you to remove chests
      default: op

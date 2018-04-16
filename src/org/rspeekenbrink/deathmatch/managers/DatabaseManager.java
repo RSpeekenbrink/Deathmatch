@@ -270,6 +270,64 @@ public class DatabaseManager {
         	close(ps, rs, connection);
         }
     }
+    
+    /**
+     * Delete Chest
+     * 
+     * @param SpawnType
+     */
+    public void deleteChest(Location location) {
+    	if(!isSavedChest(location)) return;
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("DELETE FROM " + SQL_TABLE_CHESTS + " WHERE " +
+        			"x = ? AND y = ? AND z = ? AND world = ?");	
+    		ps.setDouble(1, location.getX());
+    		ps.setDouble(2, location.getY());
+    		ps.setDouble(3, location.getZ());
+    		ps.setString(4, location.getWorld().getUID().toString());
+    		ps.executeUpdate();
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't remove Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Cache all chests from database
+     * 
+     * @return boolean is saved chest
+     */
+    public boolean isSavedChest(Location location) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+        ResultSet rs = null;
+        
+        try {
+        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_CHESTS + " WHERE " +
+        			"x = ? AND y = ? AND z = ? AND world = ?");	
+    		ps.setDouble(1, location.getX());
+    		ps.setDouble(2, location.getY());
+    		ps.setDouble(3, location.getZ());
+    		ps.setString(4, location.getWorld().getUID().toString());
+        	rs = ps.executeQuery();
+        	
+        	if (!rs.isBeforeFirst() ) {    
+        	    //no data
+        		return false;
+        	} 
+        	return true;
+        	
+        } catch (SQLException ex) {
+        	ex.printStackTrace();
+        } finally {
+        	close(ps, rs, connection);
+        }
+		return false;
+    }
 
     /**
      * Close connections
