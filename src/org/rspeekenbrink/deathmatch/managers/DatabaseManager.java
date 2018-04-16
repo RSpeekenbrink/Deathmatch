@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
@@ -203,6 +204,27 @@ public class DatabaseManager {
     	} catch (SQLException ex) {
         	ex.printStackTrace();
         	logger.severe("Couldn't remove Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    public void addChest(Location location, String type) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("INSERT INTO " + SQL_TABLE_CHESTS + " " + SQL_TABLE_CHESTS_VARS + "VALUES (?,?,?,?,?)" );
+    		ps.setString(1, type);
+    		ps.setString(2, location.getWorld().getUID().toString());
+    		ps.setDouble(3, location.getX());
+    		ps.setDouble(4, location.getY());
+    		ps.setDouble(5, location.getZ());
+    		logger.finest("Executing Query: " + ps.toString());
+    		ps.executeUpdate();
+    		
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't save Chest Location in DB; " + ex.getMessage());
         } finally {
         	close(ps, null, connection);
         }
