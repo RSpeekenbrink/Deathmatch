@@ -20,7 +20,7 @@ public class ChestGeneral extends ChestBase {
 		this.chestDisplayTitle = ChatColor.GRAY + "General Chest";
 		this.isPlaceAble = true;
 		
-		ItemStack item = new ItemStack(Material.POTATO);
+		ItemStack item = new ItemStack(Material.POTATO_ITEM, 1);
 		chestItems.add(item);
 	}
 

@@ -43,9 +43,6 @@ public class ChestBase {
 	private void initializeChest() {
 		this.chestTitle = "Chest Base";
 		this.chestDisplayTitle = ChatColor.RED + "Chest Base";
-		
-		ItemStack item = new ItemStack(Material.POTATO);
-		chestItems.add(item);
 	}
 	
 	/**

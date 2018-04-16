@@ -5,12 +5,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map.Entry;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.chests.ChestBase;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 
@@ -59,6 +61,21 @@ public class ChestHandler {
 	}
 	
 	/**
+	 * Get item drop from specific chest type
+	 * 
+	 * @param location Location of chest
+	 * @return ItemStack Item of chestType's drop function
+	 */
+	public ItemStack getChestDropItem(Location location) {
+		if(isGameChest(location)) {
+			return chestTypes.get(chestCache.get(location)).DropItem();
+		}
+		else {
+			return null;
+		}
+	}
+	
+	/**
 	 * Check if Item is placeable chest and return the chest Type
 	 * 
 	 * @param chest Itemstack to check
@@ -90,6 +107,16 @@ public class ChestHandler {
 	}
 	
 	/**
+	 * Returns if current location is game chest
+	 * 
+	 * @param location Location to check
+	 * @return
+	 */
+	public boolean isGameChest(Location location) {
+		return chestCache.containsKey(location);
+	}
+	
+	/**
 	 * Register placed chest
 	 * 
 	 * @param chestPlaced
@@ -110,6 +137,28 @@ public class ChestHandler {
 	 */
 	public void cacheChest(Location location, String type) {
 		chestCache.put(location, type);
+	}
+	
+	/**
+	 * Drop Item and handle chest respawn
+	 */
+	public void dropItem(Location location, Plugin plugin) {
+		if(!isGameChest(location)) return;
+		
+		ItemStack item = getChestDropItem(location);
+		
+		location.getBlock().setType(Material.AIR);
+		
+		location.getWorld().dropItem(location, item);
+		
+		Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+			@Override
+			public void run() {
+				location.getBlock().setType(Material.CHEST);
+			}
+		}, (20*30));
+		
+		
 	}
 	
 	/**
