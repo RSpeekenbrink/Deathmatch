@@ -30,7 +30,7 @@ public class Chest implements SubCommand {
 				return true;
 			}
 		}
-		
+		msg.sendErrorMessage("Incorrect command sytax! Use /dm help to see the list of commands", player);
 		return false;
 	}
 
