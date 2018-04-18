@@ -59,7 +59,7 @@ public final class Game {
 		}
 		
 		if(!db.playerExists(player)) {
-			db.inserPlayer(player);
+			db.insertPlayer(player);
 		}
 		
 		//update player stats
@@ -135,6 +135,18 @@ public final class Game {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Add Kill to Stat
+	 * @param killer Player
+	 */
+	public static void addKill(Player killer) {
+		if(inGame.contains(killer)) {
+			PlayerStats killerStats = db.getPlayerStats(killer);
+			++killerStats.kills;
+			db.updatePlayerKills(killerStats);
+		}
 	}
 	
 	/**

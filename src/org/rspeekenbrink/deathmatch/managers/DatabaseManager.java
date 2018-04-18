@@ -33,10 +33,12 @@ public class DatabaseManager {
 	public static String SQL_TABLE_SPAWNS = "tbl_spawns";
 	public static String SQL_TABLE_CHESTS = "tbl_chests";
 	public static String SQL_TABLE_PLAYERS = "tbl_players";
+	public static String SQL_TABLE_KILLS = "tbl_playerkills";
 	
 	private static String SQL_TABLE_SPAWNS_VARS = "(type,world,x,y,z)";
 	private static String SQL_TABLE_CHESTS_VARS = "(type,world,x,y,z)";
 	private static String SQL_TABLE_PLAYERS_VARS = "(uuid,firstJoin,lastJoin)";
+	private static String SQL_TABLE_KILLS_VARS = "(uuid,kills)";
 	
     private static String SQL_CREATE_SPAWNSTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_SPAWNS + " (" +
             "`id` INTEGER PRIMARY KEY AUTOINCREMENT," + 
@@ -57,9 +59,16 @@ public class DatabaseManager {
            ");";
 	
     private static String SQL_CREATE_PLAYERSTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_PLAYERS + " (" +
-            "`uuid` varchar(99) PRIMARY KEY," + 
+            "`uuid` varchar(350) PRIMARY KEY," + 
             "`firstJoin` int NOT NULL," +
             "`lastJoin` int NOT NULL" +
+            ");";
+    
+    private static String SQL_CREATE_KILLSTABLE = "CREATE TABLE IF NOT EXISTS " + SQL_TABLE_KILLS + " (" +
+    		"`id` INTEGER PRIMARY KEY AUTOINCREMENT," +
+            "`uuid` varchar(350) NOT NULL," +
+            "`kills` int NOT NULL," +
+            "FOREIGN KEY(uuid) REFERENCES " + SQL_TABLE_PLAYERS + "(uuid)" +
             ");";
     
 	/**
@@ -131,6 +140,7 @@ public class DatabaseManager {
             s.executeUpdate(SQL_CREATE_SPAWNSTABLE);
             s.executeUpdate(SQL_CREATE_CHESTTABLE);
             s.executeUpdate(SQL_CREATE_PLAYERSTABLE);
+            s.executeUpdate(SQL_CREATE_KILLSTABLE);
             s.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -345,7 +355,7 @@ public class DatabaseManager {
      * 
      * @param Player player to insert
      */
-    public void inserPlayer(Player player) {
+    public void insertPlayer(Player player) {
     	if(playerExists(player)) return;
     	connection = getSQLConnection();
     	PreparedStatement ps = null;
@@ -354,9 +364,49 @@ public class DatabaseManager {
     		ps.setString(1, player.getUniqueId().toString());
     		ps.setLong(2, System.currentTimeMillis());
     		ps.setLong(3, System.currentTimeMillis());
-    		logger.finest("Executing Query: " + ps.toString());
     		ps.executeUpdate();
-    		
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't save Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        	insertPlayerKills(player);
+        }
+    }
+    
+    /**
+     * Insert Player Kills
+     * @param player
+     */
+    public void insertPlayerKills(Player player) {
+    	if(!playerExists(player)) { insertPlayer(player); return;}
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("INSERT INTO " + SQL_TABLE_KILLS + " " + SQL_TABLE_KILLS_VARS + "VALUES (?,?)" );
+    		ps.setString(1, player.getUniqueId().toString());
+    		ps.setInt(2, 0);
+    		ps.executeUpdate();
+    	} catch (SQLException ex) {
+        	ex.printStackTrace();
+        	logger.severe("Couldn't save Spawn Location in DB; " + ex.getMessage());
+        } finally {
+        	close(ps, null, connection);
+        }
+    }
+    
+    /**
+     * Update Player Kills
+     * @param player
+     */
+    public void updatePlayerKills(PlayerStats stats) {
+    	connection = getSQLConnection();
+    	PreparedStatement ps = null;
+    	try {
+    		ps = connection.prepareStatement("UPDATE " + SQL_TABLE_KILLS + " SET kills = ? WHERE uuid = ?");
+    		ps.setInt(1, stats.kills);
+    		ps.setString(2,stats.uuid);
+    		ps.executeUpdate();
     	} catch (SQLException ex) {
         	ex.printStackTrace();
         	logger.severe("Couldn't save Spawn Location in DB; " + ex.getMessage());
@@ -409,7 +459,10 @@ public class DatabaseManager {
         PlayerStats result = new PlayerStats();
         
         try {
-        	ps = connection.prepareStatement("SELECT * FROM " + SQL_TABLE_PLAYERS + " WHERE uuid = ?");
+        	ps = connection.prepareStatement("SELECT " + SQL_TABLE_PLAYERS + ".firstJoin," + SQL_TABLE_PLAYERS + ".lastJoin," + SQL_TABLE_KILLS + ".kills" +
+        			" FROM " + SQL_TABLE_PLAYERS + 
+        			" JOIN " + SQL_TABLE_KILLS + " ON " + SQL_TABLE_PLAYERS + ".uuid = " + SQL_TABLE_KILLS + ".uuid" + 
+        			" WHERE " + SQL_TABLE_PLAYERS  + ".uuid = ?");
         	ps.setString(1, player.getUniqueId().toString());
         	rs = ps.executeQuery();
         	
@@ -419,9 +472,10 @@ public class DatabaseManager {
         	} 
         	
         	while(rs.next()) {
-          		result.uuid = rs.getString("uuid");
+          		result.uuid = player.getUniqueId().toString();
           		result.firstJoin = rs.getLong("firstJoin");
           		result.lastJoin = rs.getLong("lastJoin");
+          		result.kills = rs.getInt("kills");
         	}
         	
         } catch (SQLException ex) {
@@ -429,6 +483,7 @@ public class DatabaseManager {
         } finally {
         	close(ps, rs, connection);
         }
+        
         return result;
     }
     

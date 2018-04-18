@@ -35,8 +35,10 @@ public class EntityDeath implements Listener {
 			Game.PlayerLeave(killed);
 			
 			if(entity.getKiller() != null) {
+				Player killer = killed.getKiller();
 				//killed by player
-				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " got killed by " + killed.getKiller().getName());
+				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " got killed by " + killer.getName());
+				Game.addKill(killer);
 			}
 			else {
 				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " died");

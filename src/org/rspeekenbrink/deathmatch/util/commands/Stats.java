@@ -36,6 +36,7 @@ public class Stats implements SubCommand {
 			msg.sendMessage(ChatColor.GREEN + "First Joined a game: " + sdf.format(date), player);
 			date = new Date(playerStats.lastJoin); 
 			msg.sendMessage(ChatColor.GREEN + "Last Joined a game: " + sdf.format(date), player);
+			msg.sendMessage(ChatColor.GREEN + "Kills: " + playerStats.kills, player);
 			return true;
 		}
 		
