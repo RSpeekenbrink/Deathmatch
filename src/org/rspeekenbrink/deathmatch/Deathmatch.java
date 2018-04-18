@@ -109,10 +109,14 @@ public class Deathmatch extends JavaPlugin {
 			PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new BlockBreak(), plugin);
 			pm.registerEvents(new BlockPlace(), plugin);
+			pm.registerEvents(new BlockSpread(), plugin);
 			pm.registerEvents(new CreatureSpawn(plugin), plugin);
 			pm.registerEvents(new EntityDamage(), plugin);
 			pm.registerEvents(new EntityDeath(), plugin);
+			pm.registerEvents(new HangingBreak(), plugin);
+			pm.registerEvents(new PlayerArmorStandManipulate(), plugin);
 			pm.registerEvents(new PlayerInteract(plugin), plugin);
+			pm.registerEvents(new PlayerInteractEntity(), plugin);
 			pm.registerEvents(new PlayerJoin(plugin), plugin);
 			pm.registerEvents(new PlayerQuit(), plugin);
 			pm.registerEvents(new SignChange(), plugin);

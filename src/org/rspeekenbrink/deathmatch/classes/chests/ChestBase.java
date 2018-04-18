@@ -5,7 +5,6 @@ import java.util.Collection;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
