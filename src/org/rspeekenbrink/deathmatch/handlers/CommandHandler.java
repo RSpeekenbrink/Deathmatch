@@ -17,6 +17,7 @@ import org.rspeekenbrink.deathmatch.util.commands.Join;
 import org.rspeekenbrink.deathmatch.util.commands.Leave;
 import org.rspeekenbrink.deathmatch.util.commands.Reload;
 import org.rspeekenbrink.deathmatch.util.commands.Spawn;
+import org.rspeekenbrink.deathmatch.util.commands.Stats;
 
 /**
  * CommandHandler, handling all the commands the plugin has
@@ -53,6 +54,7 @@ public class CommandHandler implements CommandExecutor {
 		commands.put("join", new Join());
 		commands.put("leave", new Leave());
 		commands.put("reload", new Reload());
+		commands.put("stats", new Stats());
 		commands.put("spawn", new Spawn(plugin));
 	}
 
@@ -64,6 +66,7 @@ public class CommandHandler implements CommandExecutor {
 		helpinfo.put("join", 1);
 		helpinfo.put("leave", 1);
 		helpinfo.put("chest", 1);
+		helpinfo.put("stats", 1);
 		
 		//Admin
 		helpinfo.put("reload", 2);
