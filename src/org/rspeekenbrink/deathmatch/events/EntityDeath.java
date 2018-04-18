@@ -33,13 +33,20 @@ public class EntityDeath implements Listener {
 			Player killed = (Player) entity;
 			killed.getWorld().playSound(killed.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1, 1);
 			Game.PlayerLeave(killed);
+			Game.addDeath(killed);
 			
 			if(entity.getKiller() != null) {
 				//killed by player
-				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " got killed by " + killed.getKiller().getName());
+				Player killer = killed.getKiller();
+				if(killer == killed) {
+					pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " commited suicide :(");
+					return;
+				}
+				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " got killed by " + killer.getName());
+				Game.addKill(killer);
 			}
 			else {
-				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " died");
+				pde.setDeathMessage(ChatColor.GREEN + killed.getName() + " died somehow stupid");
 			}
 		}
 	}

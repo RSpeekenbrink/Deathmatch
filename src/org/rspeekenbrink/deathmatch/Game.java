@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.rspeekenbrink.deathmatch.classes.PlayerStats;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
@@ -56,6 +57,15 @@ public final class Game {
 			msg.sendErrorMessage("The server is in maintenance!", player);
 			return false;
 		}
+		
+		if(!db.playerExists(player)) {
+			db.insertPlayer(player);
+		}
+		
+		//update player stats
+		PlayerStats playerStats = db.getPlayerStats(player);
+		playerStats.lastJoin = System.currentTimeMillis();
+		db.updatePlayerStats(playerStats);
 		
 		
 		List<SpawnLocation> gameSpawns = db.getSpawnLocations(SpawnLocation.SpawnType.GAME);
@@ -125,6 +135,27 @@ public final class Game {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Add Kill to Stats
+	 * @param killer Player
+	 */
+	public static void addKill(Player killer) {
+			PlayerStats killerStats = db.getPlayerStats(killer);
+			killerStats.kills += 1;
+			db.updatePlayerKills(killerStats);
+	}
+	
+	
+	/**
+	 * Add Death to Stats
+	 * @param killed Player
+	 */
+	public static void addDeath(Player killed) {
+			PlayerStats killedStats = db.getPlayerStats(killed);
+			killedStats.deaths += 1;
+			db.updatePlayerDeaths(killedStats);
 	}
 	
 	/**
