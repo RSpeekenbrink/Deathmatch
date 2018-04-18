@@ -144,7 +144,7 @@ public final class Game {
 	public static void addKill(Player killer) {
 		if(inGame.contains(killer)) {
 			PlayerStats killerStats = db.getPlayerStats(killer);
-			++killerStats.kills;
+			killerStats.kills += 1;
 			db.updatePlayerKills(killerStats);
 		}
 	}
