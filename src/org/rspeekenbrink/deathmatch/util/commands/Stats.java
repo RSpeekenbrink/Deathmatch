@@ -55,7 +55,7 @@ public class Stats implements SubCommand {
 		    if (op.hasPlayedBefore()) {
 		        if(db.playerExists(op.getPlayer())) {
 		        	PlayerStats playerStats = db.getPlayerStats(op.getPlayer());
-					msg.sendMessage(ChatColor.GREEN + "------------ Deathmatch Stats for " + op.getName() + ": -----------", player);
+					msg.sendMessage(ChatColor.GREEN + "- Deathmatch Stats for " + op.getName() + ": -", player);
 					SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss z"); 
 					sdf.setTimeZone(TimeZone.getTimeZone("Europe/Amsterdam"));
 					Date date = new Date(playerStats.firstJoin); 
