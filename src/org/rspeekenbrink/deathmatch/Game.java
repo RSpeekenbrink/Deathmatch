@@ -138,15 +138,24 @@ public final class Game {
 	}
 	
 	/**
-	 * Add Kill to Stat
+	 * Add Kill to Stats
 	 * @param killer Player
 	 */
 	public static void addKill(Player killer) {
-		if(inGame.contains(killer)) {
 			PlayerStats killerStats = db.getPlayerStats(killer);
 			killerStats.kills += 1;
 			db.updatePlayerKills(killerStats);
-		}
+	}
+	
+	
+	/**
+	 * Add Death to Stats
+	 * @param killed Player
+	 */
+	public static void addDeath(Player killed) {
+			PlayerStats killedStats = db.getPlayerStats(killed);
+			killedStats.deaths += 1;
+			db.updatePlayerDeaths(killedStats);
 	}
 	
 	/**

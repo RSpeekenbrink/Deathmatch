@@ -33,6 +33,7 @@ public class EntityDeath implements Listener {
 			Player killed = (Player) entity;
 			killed.getWorld().playSound(killed.getLocation(), Sound.ENTITY_ELDER_GUARDIAN_DEATH, 1, 1);
 			Game.PlayerLeave(killed);
+			Game.addDeath(killed);
 			
 			if(entity.getKiller() != null) {
 				//killed by player

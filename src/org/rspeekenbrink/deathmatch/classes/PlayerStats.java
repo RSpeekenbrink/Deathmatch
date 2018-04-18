@@ -5,4 +5,5 @@ public class PlayerStats {
 	public long firstJoin;
 	public long lastJoin;
 	public int kills;
+	public int deaths;
 }
