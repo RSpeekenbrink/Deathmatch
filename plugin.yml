@@ -22,6 +22,7 @@ permissions:
        deathmatch.chest.place: true
        deathmatch.chest.remove: true
        deathmatch.stats: true
+       deathmatch.stats.others: true
    deathmatch.help.admin:
      description: Show admin commands
      default: op
@@ -52,3 +53,6 @@ permissions:
    deathmatch.stats:
      description: Allows you to view your own stats
      default: true
+   deathmatch.stats.others:
+     description: Allows you to view others stats
+     default: op
