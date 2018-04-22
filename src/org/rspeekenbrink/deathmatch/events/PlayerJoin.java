@@ -17,6 +17,7 @@ import org.rspeekenbrink.deathmatch.managers.MessageManager;
 /**
  * PlayerJoin Event Listeners. This will handle events that are triggered by the player joining the server.
  * It is registered upon plugin load in the Startup class.
+ * @see https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/player/PlayerJoinEvent.html
  * 
  * @author 		Remco Speekenbrink
  * @version 	1.0

@@ -12,6 +12,7 @@ import org.rspeekenbrink.deathmatch.util.Logger;
 
 /**
  * Creature Spawn Event Listener listens to the Creature Spawn events and handles them. It is registered upon plugin load in the Startup class.
+ * @see https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/entity/CreatureSpawnEvent.html
  * 
  * @author 		Remco Speekenbrink
  * @version 	1.0

@@ -10,6 +10,14 @@ import org.rspeekenbrink.deathmatch.Game;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * BlockBreak, handles BlockBreak event
+ * @see https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/block/BlockBreakEvent.html
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class BlockBreak implements Listener {
 	private MessageManager msg = MessageManager.getInstance();
 	private DatabaseManager db = DatabaseManager.getInstance();

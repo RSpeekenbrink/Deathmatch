@@ -22,6 +22,13 @@ import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
 import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.util.Logger;
 
+/**
+ * Databases Handler handles the database
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class DatabaseManager {
 	private static DatabaseManager instance;
 	private Plugin plugin;

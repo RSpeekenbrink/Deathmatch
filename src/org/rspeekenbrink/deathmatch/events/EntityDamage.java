@@ -8,6 +8,14 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.rspeekenbrink.deathmatch.Deathmatch;
 import org.rspeekenbrink.deathmatch.Game;
 
+/**
+ * EntityDamage, Handles EntityDamage Event
+ * @see https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/entity/EntityDamageEvent.html
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class EntityDamage implements Listener {
 	
 	@EventHandler

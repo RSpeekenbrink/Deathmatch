@@ -12,6 +12,15 @@ import org.rspeekenbrink.deathmatch.Game;
 import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * PlayerInteract Event will handle all left an right mouse button interactions on non entities
+ * It is registered upon plugin load in the Startup class.
+ * @see https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/player/PlayerInteractEvent.html
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class PlayerInteract implements Listener {
 	private Plugin plugin;
 	
