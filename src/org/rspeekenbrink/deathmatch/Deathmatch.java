@@ -8,7 +8,9 @@ import org.bukkit.World;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.*;
+import org.rspeekenbrink.deathmatch.classes.chests.ChestGeneral;
 import org.rspeekenbrink.deathmatch.events.*;
+import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.handlers.CommandHandler;
 import org.rspeekenbrink.deathmatch.managers.*;
 import org.rspeekenbrink.deathmatch.util.Logger;
@@ -107,10 +109,16 @@ public class Deathmatch extends JavaPlugin {
 			PluginManager pm = getServer().getPluginManager();
 			pm.registerEvents(new BlockBreak(), plugin);
 			pm.registerEvents(new BlockPlace(), plugin);
+			pm.registerEvents(new BlockSpread(), plugin);
 			pm.registerEvents(new CreatureSpawn(plugin), plugin);
 			pm.registerEvents(new EntityDamage(), plugin);
 			pm.registerEvents(new EntityDeath(), plugin);
-			pm.registerEvents(new PlayerInteract(), plugin);
+			pm.registerEvents(new EntityExplode(), plugin);
+			pm.registerEvents(new HangingBreak(), plugin);
+			pm.registerEvents(new PlayerArmorStandManipulate(), plugin);
+			pm.registerEvents(new PlayerBedEnter(), plugin);
+			pm.registerEvents(new PlayerInteract(plugin), plugin);
+			pm.registerEvents(new PlayerInteractEntity(), plugin);
 			pm.registerEvents(new PlayerJoin(plugin), plugin);
 			pm.registerEvents(new PlayerQuit(), plugin);
 			pm.registerEvents(new SignChange(), plugin);
@@ -118,8 +126,12 @@ public class Deathmatch extends JavaPlugin {
 			logger.fine("Setting up commands..");
 			setupCommands();
 			
+			logger.fine("Registering chests..");
+			ChestHandler chestHandler = ChestHandler.getInstance();
+			chestHandler.registerChestType("general", new ChestGeneral());
+			
 			logger.info("Starting Game..");
-			Game.Start();
+			Game.Start(plugin);
 			
 			logger.info("Enabled!");
 		}

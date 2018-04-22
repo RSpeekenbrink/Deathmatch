@@ -13,11 +13,14 @@ import org.bukkit.attribute.Attribute;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.rspeekenbrink.deathmatch.classes.PlayerStats;
 import org.rspeekenbrink.deathmatch.classes.SpawnLocation;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
+import org.rspeekenbrink.deathmatch.util.Logger;
 
 /**
  * Static Class containing all main game functions and loops
@@ -54,6 +57,15 @@ public final class Game {
 			msg.sendErrorMessage("The server is in maintenance!", player);
 			return false;
 		}
+		
+		if(!db.playerExists(player)) {
+			db.insertPlayer(player);
+		}
+		
+		//update player stats
+		PlayerStats playerStats = db.getPlayerStats(player);
+		playerStats.lastJoin = System.currentTimeMillis();
+		db.updatePlayerStats(playerStats);
 		
 		
 		List<SpawnLocation> gameSpawns = db.getSpawnLocations(SpawnLocation.SpawnType.GAME);
@@ -126,14 +138,43 @@ public final class Game {
 	}
 	
 	/**
+	 * Add Kill to Stats
+	 * @param killer Player
+	 */
+	public static void addKill(Player killer) {
+			PlayerStats killerStats = db.getPlayerStats(killer);
+			killerStats.kills += 1;
+			db.updatePlayerKills(killerStats);
+	}
+	
+	
+	/**
+	 * Add Death to Stats
+	 * @param killed Player
+	 */
+	public static void addDeath(Player killed) {
+			PlayerStats killedStats = db.getPlayerStats(killed);
+			killedStats.deaths += 1;
+			db.updatePlayerDeaths(killedStats);
+	}
+	
+	/**
 	 * Run All events needed on game start
 	 */
-	public static void Start() {
+	public static void Start(Plugin plugin) {
+		Logger logger = new Logger(plugin);
+		
 		if(!Bukkit.getOnlinePlayers().isEmpty() && !Deathmatch.InMaintenance && !Deathmatch.InDebug) {
 			//Kick all pre-joined players
 			for (Player player : Bukkit.getOnlinePlayers()) {
 				player.kickPlayer("§l§bServer is Restarting... \n§r§3Please join back in a few seconds");
 			}
+		}
+		
+		if(!Deathmatch.InMaintenance) {
+			logger.fine("Caching chests....");
+			//Cache chests
+			db.cacheChests();
 		}
 	}
 	

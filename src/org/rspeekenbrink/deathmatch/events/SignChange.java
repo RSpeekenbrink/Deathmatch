@@ -5,6 +5,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 
+/**
+ * SignChange Event will handle plugin sign creation
+ * It is registered upon plugin load in the Startup class.
+ * @see https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/block/SignChangeEvent.html
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class SignChange implements Listener {
 	
 	@EventHandler

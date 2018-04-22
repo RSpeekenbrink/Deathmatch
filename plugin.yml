@@ -1,6 +1,6 @@
 name: Deathmatch
 main: org.rspeekenbrink.deathmatch.Deathmatch
-version: 0.1
+version: 0.2
 database: true
 commands:
   deathmatch:
@@ -18,6 +18,11 @@ permissions:
        deathmatch.leave: true
        deathmatch.place.sign: true
        deathmatch.reload: true
+       deathmatch.spawn.modify: true
+       deathmatch.chest.place: true
+       deathmatch.chest.remove: true
+       deathmatch.stats: true
+       deathmatch.stats.others: true
    deathmatch.help.admin:
      description: Show admin commands
      default: op
@@ -38,4 +43,16 @@ permissions:
      default: op
    deathmatch.spawn.modify:
      description: Allows you to modify all spawns
+     default: op
+   deathmatch.chest.place:
+     description: Allows you to place new chests
+     default: op
+   deathmatch.chest.remove:
+     description: Allows you to remove chests
+     default: op
+   deathmatch.stats:
+     description: Allows you to view your own stats
+     default: true
+   deathmatch.stats.others:
+     description: Allows you to view others stats
      default: op

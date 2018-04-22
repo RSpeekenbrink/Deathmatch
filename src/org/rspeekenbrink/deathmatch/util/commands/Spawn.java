@@ -8,6 +8,13 @@ import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * Spawn Command handling
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class Spawn implements SubCommand {
 	private Plugin plugin;
 	private DatabaseManager db = DatabaseManager.getInstance(plugin);
@@ -63,8 +70,7 @@ public class Spawn implements SubCommand {
 				default:
 					msg.sendErrorMessage("Unknown Spawn type", player);
 					break;
-			}
-			return true;
+				}
 			}
 		}
 		msg.sendErrorMessage("Incorrect command sytax! Use /dm help to see the list of commands", player);
