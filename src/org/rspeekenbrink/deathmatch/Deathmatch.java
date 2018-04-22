@@ -116,6 +116,7 @@ public class Deathmatch extends JavaPlugin {
 			pm.registerEvents(new EntityExplode(), plugin);
 			pm.registerEvents(new HangingBreak(), plugin);
 			pm.registerEvents(new PlayerArmorStandManipulate(), plugin);
+			pm.registerEvents(new PlayerBedEnter(), plugin);
 			pm.registerEvents(new PlayerInteract(plugin), plugin);
 			pm.registerEvents(new PlayerInteractEntity(), plugin);
 			pm.registerEvents(new PlayerJoin(plugin), plugin);
