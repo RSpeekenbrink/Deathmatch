@@ -5,6 +5,13 @@ import org.rspeekenbrink.deathmatch.Game;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * Join Command handling
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class Join implements SubCommand {
 	private MessageManager msg = MessageManager.getInstance();
 

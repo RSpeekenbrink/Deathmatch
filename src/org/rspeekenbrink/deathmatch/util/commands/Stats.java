@@ -13,6 +13,13 @@ import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * Stats Command handling
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class Stats implements SubCommand {
 	MessageManager msg = MessageManager.getInstance();
 	DatabaseManager db = DatabaseManager.getInstance();

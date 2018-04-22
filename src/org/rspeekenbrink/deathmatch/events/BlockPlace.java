@@ -9,6 +9,14 @@ import org.rspeekenbrink.deathmatch.Game;
 import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * BlockPlace, handles BlockPlace event
+ * @see https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/event/block/BlockBreakEvent.html
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class BlockPlace implements Listener {
 	ChestHandler chestHandler = ChestHandler.getInstance();
 	MessageManager msg = MessageManager.getInstance();

@@ -8,6 +8,7 @@ import org.rspeekenbrink.deathmatch.Game;
 /**
  * PlayerQuit Event Listeners. This will handle events that are triggered by the player leaving the server.
  * It is registered upon plugin load in the Startup class.
+ * @see https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/player/PlayerQuitEvent.html
  * 
  * @author 		Remco Speekenbrink
  * @version 	1.0

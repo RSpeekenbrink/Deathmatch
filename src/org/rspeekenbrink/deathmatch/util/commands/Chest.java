@@ -7,6 +7,13 @@ import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * Chest Command handling
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class Chest implements SubCommand {
 	private MessageManager msg = MessageManager.getInstance();
 	private ChestHandler chestHandler = ChestHandler.getInstance();

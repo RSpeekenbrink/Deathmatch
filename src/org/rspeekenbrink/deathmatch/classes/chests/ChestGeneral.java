@@ -7,6 +7,14 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+/**
+ * ChestGeneral, chest type, implements ChestBase
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ * @see 		ChestBase
+ */
 public class ChestGeneral extends ChestBase {
 	/**
 	 * Constructor

@@ -5,6 +5,13 @@ import org.rspeekenbrink.deathmatch.Game;
 import org.rspeekenbrink.deathmatch.interfaces.SubCommand;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
+/**
+ * Leave Command handling
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class Leave implements SubCommand {
 	MessageManager msg = MessageManager.getInstance();
 

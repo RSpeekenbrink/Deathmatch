@@ -16,6 +16,13 @@ import org.bukkit.plugin.Plugin;
 import org.rspeekenbrink.deathmatch.classes.chests.ChestBase;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 
+/**
+ * ChestHandler has all chest handling functions
+ * 
+ * @author 		Remco Speekenbrink
+ * @version 	1.0
+ * @since       1.0
+ */
 public class ChestHandler {
 	private static ChestHandler instance;
 	private DatabaseManager db = DatabaseManager.getInstance();
