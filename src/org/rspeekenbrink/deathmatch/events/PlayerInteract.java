@@ -31,8 +31,8 @@ public class PlayerInteract implements Listener {
 	
 	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent e) {
-		//Prevent trampling farmland
-		if(e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.SOIL) {
+		//Prevent trampling farm land
+		if(e.getAction() == Action.PHYSICAL && e.getClickedBlock().getType() == Material.FARMLAND) {
 	        e.setCancelled(true);
 	        return;
 		}

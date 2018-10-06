@@ -31,7 +31,7 @@ public class ChestGeneral extends ChestBase {
 		this.chestDisplayTitle = ChatColor.GRAY + "General Chest";
 		this.isPlaceAble = true;
 		
-		ItemStack item = new ItemStack(Material.POTATO_ITEM, 1);
+		ItemStack item = new ItemStack(Material.POTATO, 1);
 		chestItems.add(item);
 		
 		item = new ItemStack(Material.BAKED_POTATO, 1);
@@ -40,7 +40,7 @@ public class ChestGeneral extends ChestBase {
 		item = new ItemStack(Material.BAKED_POTATO, 2);
 		chestItems.add(item);
 		
-		item = new ItemStack(Material.WOOD_HOE, 1);
+		item = new ItemStack(Material.WOODEN_HOE, 1);
 		ItemMeta itemMeta = item.getItemMeta();
 		itemMeta.setLore(Arrays.asList("Don't be sad, its just a wooden hoe!"));
 		item.setItemMeta(itemMeta);
@@ -52,10 +52,10 @@ public class ChestGeneral extends ChestBase {
 		item = new ItemStack(Material.STONE_AXE, 1);
 		chestItems.add(item);
 		
-		item = new ItemStack(Material.WOOD_AXE, 1);
+		item = new ItemStack(Material.WOODEN_AXE, 1);
 		chestItems.add(item);
 		
-		item = new ItemStack(Material.CARROT_ITEM, 1);
+		item = new ItemStack(Material.CARROT, 1);
 		chestItems.add(item);
 		
 		item = new ItemStack(Material.LEATHER_HELMET, 1);
