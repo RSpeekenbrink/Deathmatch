@@ -28,23 +28,30 @@ public class Chest implements SubCommand {
 		if(args.length == 1) {
 			if(args[0].equalsIgnoreCase("place")) {
 				if(!Deathmatch.InMaintenance) {
-					msg.sendErrorMessage("The server is not in Maintenance mode!", player);
+					msg.sendErrorMessage("The server needs to be in maintenance mode to place chests!", player);
 					return false;
 				}
+				
 				player.setGameMode(GameMode.CREATIVE);
 				chestHandler.addChestsToInventory(player);
 				msg.sendMessage("Placeable Chests added to your inventory!", player);
 				return true;
 			}
+			
+			if(args[0].equalsIgnoreCase("info")) {
+				chestHandler.switchInspect(player);
+				return true;
+			}
 		}
-		msg.sendErrorMessage("Incorrect command sytax! Use /dm help to see the list of commands", player);
+		
+		player.sendMessage(msg.convertHelpInfo("/deathmatch chest place", "Get all placeable chests"));
+		player.sendMessage(msg.convertHelpInfo("/deathmatch chest info", "Enable/Disable chest inspect mode"));
 		return false;
 	}
 
 	@Override
 	public String help(Player p) {
-		// TODO Auto-generated method stub
-		return null;
+		return msg.convertHelpInfo("/deathmatch chest", "View chests commands");
 	}
 
 	@Override

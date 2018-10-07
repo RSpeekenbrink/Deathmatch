@@ -1,5 +1,6 @@
 package org.rspeekenbrink.deathmatch.handlers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +31,7 @@ public class ChestHandler {
 	private DatabaseManager db = DatabaseManager.getInstance();
 	private HashMap<String, ChestBase> chestTypes = new HashMap<String, ChestBase>();
 	private HashMap<Location, String> chestCache = new HashMap<Location, String>();
+	private ArrayList<Player> inInspect = new ArrayList<Player>();
 	private Logger logger;
 	
 	public ChestHandler() {
@@ -104,6 +106,19 @@ public class ChestHandler {
 	}
 	
 	/**
+	 * Checks the type of the chest at location
+	 * 
+	 * @param chest Itemstack to check
+	 * @return
+	 */
+	public String getChestType(Location location) {
+		if(chestCache.containsKey(location)) {
+			return chestCache.get(location);
+		}
+		return null;
+	}
+	
+	/**
 	 * Check if Item is placeable chest
 	 * 
 	 * @param chestToCheck ItemStack to check
@@ -172,8 +187,31 @@ public class ChestHandler {
 				location.getBlock().setType(Material.CHEST);
 			}
 		}, (20*30));
-		
-		
+	}
+	
+	/**
+	 * Switch inspectmode for player
+	 * 
+	 * @param Player player
+	 */
+	public void switchInspect(Player player) {
+		if(inInspect.contains(player)) {
+			inInspect.remove(player);
+			player.sendMessage("§2Inspect mode disabled!");
+		} else {
+			inInspect.add(player);
+			player.sendMessage("§2Inspect mode enabled!");
+		}
+	}
+	
+	/**
+	 * Check if player is in inspectmode
+	 * 
+	 * @param Player player
+	 * @return boolean
+	 */
+	public boolean isInspecting(Player player) {
+		return inInspect.contains(player);
 	}
 	
 	/**

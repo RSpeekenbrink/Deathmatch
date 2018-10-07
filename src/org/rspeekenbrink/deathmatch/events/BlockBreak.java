@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.rspeekenbrink.deathmatch.Deathmatch;
 import org.rspeekenbrink.deathmatch.Game;
+import org.rspeekenbrink.deathmatch.handlers.ChestHandler;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
 import org.rspeekenbrink.deathmatch.managers.MessageManager;
 
@@ -21,6 +22,7 @@ import org.rspeekenbrink.deathmatch.managers.MessageManager;
 public class BlockBreak implements Listener {
 	private MessageManager msg = MessageManager.getInstance();
 	private DatabaseManager db = DatabaseManager.getInstance();
+	private ChestHandler ch = ChestHandler.getInstance();
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
@@ -32,6 +34,18 @@ public class BlockBreak implements Listener {
 		}
 		
 		if(e.getBlock().getType() == Material.CHEST) {
+			if(ch.isInspecting(e.getPlayer())) {
+				e.setCancelled(true);
+				
+				if(!db.isSavedChest(e.getBlock().getLocation())) {
+					msg.sendMessage("This chest is not registered!", e.getPlayer());
+				} else {
+					msg.sendMessage("This is a " + ch.getChestType(e.getBlock().getLocation()) + " chest!", e.getPlayer());
+				}
+				
+				return;
+			}
+			
 			if(db.isSavedChest(e.getBlock().getLocation())) {
 				if(!Deathmatch.InMaintenance) {
 					e.setCancelled(true);
