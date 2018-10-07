@@ -33,6 +33,11 @@ public class BlockBreak implements Listener {
 		
 		if(e.getBlock().getType() == Material.CHEST) {
 			if(db.isSavedChest(e.getBlock().getLocation())) {
+				if(!Deathmatch.InMaintenance) {
+					e.setCancelled(true);
+					msg.sendErrorMessage("Server needs to be in maintenance mode to break chests!", e.getPlayer());
+					return;
+				}
 				if(!e.getPlayer().hasPermission("deathmatch.chest.remove")) {
 					e.setCancelled(true);
 					msg.sendNoPermissionMessage(e.getPlayer());
