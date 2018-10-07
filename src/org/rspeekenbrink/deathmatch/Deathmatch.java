@@ -23,6 +23,7 @@ import org.rspeekenbrink.deathmatch.util.Logger;
  * @since       1.0
  */
 public class Deathmatch extends JavaPlugin {
+	public static Deathmatch main;
 	private Plugin plugin = this;
 	private Logger logger = new Logger(plugin);
 	
@@ -38,6 +39,8 @@ public class Deathmatch extends JavaPlugin {
 	 */
 	@Override
     public void onEnable() {
+		Deathmatch.main = this;
+		
 		//Make sure all worlds are loaded before starting the game
 		getServer().getScheduler().scheduleSyncDelayedTask(this, new Startup(), 10);
     }

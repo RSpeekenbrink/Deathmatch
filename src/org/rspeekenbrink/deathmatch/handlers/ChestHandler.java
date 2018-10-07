@@ -13,8 +13,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
+import org.rspeekenbrink.deathmatch.Deathmatch;
 import org.rspeekenbrink.deathmatch.classes.chests.ChestBase;
 import org.rspeekenbrink.deathmatch.managers.DatabaseManager;
+import org.rspeekenbrink.deathmatch.util.Logger;
 
 /**
  * ChestHandler has all chest handling functions
@@ -28,6 +30,11 @@ public class ChestHandler {
 	private DatabaseManager db = DatabaseManager.getInstance();
 	private HashMap<String, ChestBase> chestTypes = new HashMap<String, ChestBase>();
 	private HashMap<Location, String> chestCache = new HashMap<Location, String>();
+	private Logger logger;
+	
+	public ChestHandler() {
+		logger = new Logger(Deathmatch.main);
+	}
 	
 	/**
 	 * Requests the instance of the MessageManager Class, if this does not exist create the instance.
@@ -130,6 +137,7 @@ public class ChestHandler {
 	 * @param locationPlaced
 	 */
 	public void placeChest(ItemStack chestPlaced, Location locationPlaced) {
+		logger.finer("New chest placed!");
 		String type = getChestType(chestPlaced);
 		if(type != null) {
 			db.addChest(locationPlaced, type);
@@ -191,7 +199,6 @@ public class ChestHandler {
 			chest.setItemMeta(chestMeta);
 			i.setItem(x, chest);
 			x++;
-	        it.remove(); // avoids a ConcurrentModificationException
 	    }
 	}
 }
